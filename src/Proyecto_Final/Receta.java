@@ -1,30 +1,21 @@
 package Proyecto_Final;
 
 public class Receta {
+	int id;
+	String nombre;
 	Ingrediente[] ingredientes;
 	String descripcion;
 	String preparacion;
-
-	// filtros de ajustes y preferencias
 	boolean vegetariano;
 	boolean vegano;
-
-	// filtros de busqueda
-	int tiempo;
 	boolean salado;
 	boolean dulce;
 	boolean picante;
+	String imagenUrl;
+	int tiempo;
 
 	public Receta() {
-		ingredientes = null;
-		descripcion = "";
-		preparacion = "";
-		vegetariano = false;
-		vegano = false;
-		tiempo = 0;
-		salado = false;
-		dulce = false;
-		picante = false;
+
 	}
 
 }

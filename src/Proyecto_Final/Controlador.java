@@ -1,5 +1,5 @@
 package Proyecto_Final;
 
-public class Nevera {
+public class Controlador {
 
 }

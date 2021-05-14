@@ -1,10 +1,11 @@
 package Proyecto_Final;
 
-public class Usuarios {
+public class Usuario {
 	int id;
+	Ingrediente[] inventario;
+	Filtro filtro;
 	String username;
 	String nombre;
 	String apellidos;
 	String password;
-
 }
