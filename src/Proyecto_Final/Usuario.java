@@ -1,26 +1,26 @@
 package Proyecto_Final;
 
 public class Usuario {
-	int id;
+	int userID;
 	String username;
 	String nombre;
 	String apellidos;
 	String password;
 
 	public Usuario(String[] atributo) {
-		id = Integer.parseInt(atributo[0]);
+		userID = Integer.parseInt(atributo[0]);
 		username = atributo[1];
 		nombre = atributo[3];
 		apellidos = atributo[4];
 		password = atributo[2];
 	}
 
-	public int getId() {
-		return id;
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserID(int id) {
+		this.userID = id;
 	}
 
 	public String getUsername() {
@@ -56,6 +56,6 @@ public class Usuario {
 	}
 
 	public String toString() {
-		return "\nid: " + id + "\nUsername: " + username + "\nNombre: " + nombre + "\nApellidos: " + apellidos;
+		return "\nid: " + userID + "\nUsername: " + username + "\nNombre: " + nombre + "\nApellidos: " + apellidos;
 	}
 }
