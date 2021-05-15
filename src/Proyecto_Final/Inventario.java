@@ -7,19 +7,15 @@ public class Inventario {
 	private int userID;
 	private ArrayList<IngredienteEnInventario> ingredientes;
 
-	public Inventario(String ID) {
-		userID = Integer.parseInt(ID);
+	public Inventario() {
+		inventarioID = 0;
+		userID = 0;
+		ingredientes = new ArrayList<IngredienteEnInventario>();
 	}
 
-	public Inventario(IngredienteEnBBDD[] ingredientesArray, String[] atributos) {
-		inventarioID = Integer.parseInt(atributos[0]);
-		userID = Integer.parseInt(atributos[0]);
-		ingredientes = new ArrayList<IngredienteEnInventario>();
-
-		for (int i = 0; i < ingredientesArray.length; i++) {
-			ingredientes.add(
-					new IngredienteEnInventario(ingredientesArray[i], atributos[0], atributos[1].split("&&")[i].split("€€")));
-		}
+	public Inventario(String[] atributo) {
+		inventarioID = Integer.parseInt(atributo[0]);
+		userID = Integer.parseInt(atributo[1]);
 	}
 
 	public int getUserID() {
@@ -38,18 +34,20 @@ public class Inventario {
 		return ingredientes;
 	}
 
-	// TODO hay que preparar un setter para recibir IngredienteEnBBDD + atributos de
-	// IngredienteEnInventario y que haga la misma funcion que el constructor
-	public void setIngredientes(ArrayList<IngredienteEnInventario> ingredientes) {
-		this.ingredientes = ingredientes;
-	}
-
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
 
 	public String toString() {
 		return "\n\nInventarioID: " + inventarioID + "\nuserID: " + userID + "\ningredientes: " + ingredientes + "\n";
+	}
+
+	public void setIngredientes(IngredienteEnBBDD[] ingredientesArray, String atributos) {
+		ingredientes = new ArrayList<IngredienteEnInventario>();
+		for (int i = 0; i < ingredientesArray.length; i++) {
+			ingredientes.add(new IngredienteEnInventario(ingredientesArray[i], this.inventarioID,
+					atributos.split("&&")[i].split("€€")));
+		}
 	}
 
 }

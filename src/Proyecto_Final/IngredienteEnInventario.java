@@ -8,8 +8,8 @@ public class IngredienteEnInventario {
 	private double cantidad;
 	private LocalDateTime caducidad;
 
-	public IngredienteEnInventario(IngredienteEnBBDD ingrediente, String ID, String[] atributo) {
-		inventarioID = Integer.parseInt(ID);
+	public IngredienteEnInventario(IngredienteEnBBDD ingrediente, int ID, String[] atributo) {
+		inventarioID = ID;
 		this.ingrediente = ingrediente;
 		cantidad = Double.parseDouble(atributo[0]);
 		caducidad = LocalDateTime.parse(atributo[1].replace(' ', 'T'));

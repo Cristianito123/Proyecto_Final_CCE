@@ -9,7 +9,7 @@ public class Vista {
 //		control.mostrarIngredientes();
 
 //		control.mostrarUsuarios();
-		control.mostrarInventarios();
+//		control.mostrarInventarios();
 
 //		control.mostrarFiltros();
 //		control.mostrarRecetas();
