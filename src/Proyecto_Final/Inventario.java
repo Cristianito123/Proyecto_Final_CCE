@@ -1,55 +1,55 @@
 package Proyecto_Final;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Inventario {
-	int userID;
-	int ingredienteID;
-	double cantidad;
-	LocalDateTime caducidad;
+	private int inventarioID;
+	private int userID;
+	private ArrayList<IngredienteEnInventario> ingredientes;
 
-	public Inventario(String[] atributo) {
-		userID = Integer.parseInt(atributo[0]);
-		ingredienteID = Integer.parseInt(atributo[1]);
-		cantidad = Double.parseDouble(atributo[2]);
-		caducidad = LocalDateTime.parse(atributo[3].replace(' ', 'T'));
+	public Inventario(String ID) {
+		userID = Integer.parseInt(ID);
+	}
+
+	public Inventario(IngredienteEnBBDD[] ingredientesArray, String[] atributos) {
+		inventarioID = Integer.parseInt(atributos[0]);
+		userID = Integer.parseInt(atributos[0]);
+		ingredientes = new ArrayList<IngredienteEnInventario>();
+
+		for (int i = 0; i < ingredientesArray.length; i++) {
+			ingredientes.add(
+					new IngredienteEnInventario(ingredientesArray[i], atributos[0], atributos[1].split("&&")[i].split("€€")));
+		}
 	}
 
 	public int getUserID() {
 		return userID;
 	}
 
+	public int getInventarioID() {
+		return inventarioID;
+	}
+
+	public void setInventarioID(int inventarioID) {
+		this.inventarioID = inventarioID;
+	}
+
+	public ArrayList<IngredienteEnInventario> getIngredientes() {
+		return ingredientes;
+	}
+
+	// TODO hay que preparar un setter para recibir IngredienteEnBBDD + atributos de
+	// IngredienteEnInventario y que haga la misma funcion que el constructor
+	public void setIngredientes(ArrayList<IngredienteEnInventario> ingredientes) {
+		this.ingredientes = ingredientes;
+	}
+
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
 
-	public int getIngredienteID() {
-		return ingredienteID;
-	}
-
-	public void setIngredienteID(int ingredienteID) {
-		this.ingredienteID = ingredienteID;
-	}
-
-	public double getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(double cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public LocalDateTime getCaducidad() {
-		return caducidad;
-	}
-
-	public void setCaducidad(LocalDateTime caducidad) {
-		this.caducidad = caducidad;
-	}
-
 	public String toString() {
-		return "\n\nuserID: " + userID + "\ningredienteID: " + ingredienteID + "\ncantidad: " + cantidad
-				+ "\ncaducidad: " + caducidad;
+		return "\n\nInventarioID: " + inventarioID + "\nuserID: " + userID + "\ningredientes: " + ingredientes + "\n";
 	}
 
 }

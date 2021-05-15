@@ -1,6 +1,6 @@
 package Proyecto_Final;
 
-public class Ingrediente {
+public class IngredienteEnBBDD {
 	private int id;
 	private String nombre;
 	private String medida;
@@ -10,7 +10,7 @@ public class Ingrediente {
 	private boolean vegetal;
 	private boolean proteina_animal;
 
-	public Ingrediente(String[] atributo) {
+	public IngredienteEnBBDD(String[] atributo) {
 		id = Integer.parseInt(atributo[0]);
 		nombre = atributo[1];
 		medida = atributo[2];
@@ -105,11 +105,14 @@ public class Ingrediente {
 		this.proteina_animal = proteina_animal;
 	}
 
-	@Override
 	public String toString() {
-		return "\nIngrediente Nº: " + id + "\nNombre: " + nombre + "\nMedida: " + medida + "\nAlergeno: " + alergeno
-				+ "\nLactosa: " + lactosa + "\nGluten: " + gluten + "\nVegetal: " + vegetal + "\nProteina animal: "
-				+ proteina_animal;
+		return "\n\t\tIngrediente Nº: " + id + "\n\t\tNombre: " + nombre + "\n\t\tMedida: " + medida
+				+ "\n\t\tAlergeno: " + alergeno + "\n\t\tLactosa: " + lactosa + "\n\t\tGluten: " + gluten
+				+ "\n\t\tVegetal: " + vegetal + "\n\t\tProteina animal: " + proteina_animal;
 	}
 
+	public String toArray() {
+		return id + ";" + nombre + ";" + medida + ";" + alergeno + ";" + lactosa + ";" + gluten + ";" + vegetal + ";"
+				+ proteina_animal;
+	}
 }
