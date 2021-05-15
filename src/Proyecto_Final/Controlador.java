@@ -25,7 +25,7 @@ public class Controlador {
 		listaInventarios = new ArrayList<Inventario>();
 		listaFiltros = new ArrayList<Filtro>();
 
-		String bd = "prueba";
+		String bd = "PF_CCE";
 		String url = "jdbc:mysql://34.91.89.112:3306/" + bd;
 		String user = "zther";
 		String pass = "zther";
@@ -49,48 +49,69 @@ public class Controlador {
 
 	private void leerBBDD(ResultSet rs, Statement stmt) throws SQLException {
 		IngredienteEnBBDD[] ingredientes;
-		String row = "", atributos = "", ingredienteID = "", insert = "";
+		String row = "", atributos = "", ingredienteID = "";
 		System.out.println("Leyendo base de datos"); // TODO BORRAR
+
+		// POBLAR ARRAYLIST DE INGREDIENTES
 		rs = stmt.executeQuery("select * from ingrediente");
 		while (rs.next()) {
 			row = rs.getString(1) + ";" + rs.getString(2) + ";" + rs.getString(3) + ";" + rs.getString(4) + ";"
 					+ rs.getString(5) + ";" + rs.getString(6) + ";" + rs.getString(7) + ";" + rs.getString(8);
-			listaIngredientes.add(new IngredienteEnBBDD(row.split(";")));
+			if (!row.isEmpty()) {
+				listaIngredientes.add(new IngredienteEnBBDD(row.split(";")));
+			}
 		}
 
+		// POBLAR ARRAYLIST DE USUARIOS
 		rs = stmt.executeQuery("select * from usuario");
 		while (rs.next()) {
 
 			row = rs.getString(1) + ";" + rs.getString(2) + ";" + rs.getString(3) + ";" + rs.getString(4) + ";"
 					+ rs.getString(5);
-			listaUsuarios.add(new Usuario(row.split(";")));
+			if (!row.isEmpty()) {
+				listaUsuarios.add(new Usuario(row.split(";")));
+			}
 		}
 
+		// POBLAR ARRAYLIST DE INVENTARIOS
 		for (Usuario bus : listaUsuarios) {
-			rs = stmt.executeQuery("select * from inventario where userID =" + bus.getUserID());
+			rs = stmt.executeQuery("select * from Inventario where userID =" + bus.getUserID());
+			while (rs.next()) {
+				row = rs.getString(1) + ";" + rs.getString(2);
+				if (!row.isEmpty()) {
+					listaInventarios.add(new Inventario(row.split(";")));
+				}
+			}
+		}
+
+		// POBLAR INVENTARIOS CON INGREDIENTES
+		for (Inventario bus : listaInventarios) {
+			rs = stmt
+					.executeQuery("select * from IngredientesEnInventario where inventarioID =" + bus.getInventarioID());
 			ingredienteID = "";
 			atributos = "";
+			int i = 0;
 
 			while (rs.next()) {
-				System.out.println(bus.nombre);
-				ingredienteID += rs.getString(3) + "€€";
-				atributos += rs.getString(4) + "€€" + rs.getString(5) + "&&";
+				ingredienteID += rs.getString(2) + "€€";
+				atributos += rs.getString(3) + "€€" + rs.getString(4) + "&&";
 			}
 			if (!ingredienteID.isEmpty()) {
 				ingredientes = new IngredienteEnBBDD[ingredienteID.split("€€").length];
 
-				for (int i = 0; i < ingredientes.length; i++) {
-					for (int j = 0; j < listaIngredientes.size(); j++) {
-						if (listaIngredientes.get(j).getId() == Integer.parseInt(ingredienteID.split("€€")[i])) {
-							ingredientes[i] = new IngredienteEnBBDD(listaIngredientes.get(j).toArray().split(";"));
+				for (int j = 0; j < ingredientes.length; j++) {
+					for (int k = 0; k < listaIngredientes.size(); k++) {
+						if (listaIngredientes.get(k).getId() == Integer.parseInt(ingredienteID.split("€€")[j])) {
+							ingredientes[j] = new IngredienteEnBBDD(listaIngredientes.get(k).toArray().split(";"));
 						}
 					}
 				}
-				insert = bus.getUserID() + ";" + atributos;
-				listaInventarios.add(new Inventario(ingredientes, insert.split(";")));
+				listaInventarios.get(i).setIngredientes(ingredientes, atributos);
+				i++;
 			}
 		}
 
+		// AUN NO LLEGO AQUI XD
 		rs = stmt.executeQuery("select * from filtro");
 		while (rs.next()) {
 			row = rs.getString(1) + ";" + rs.getString(2) + ";" + rs.getString(3) + ";" + rs.getString(4) + ";"
@@ -107,7 +128,7 @@ public class Controlador {
 			listaRecetas.add(new Receta(row.split(";")));
 		}
 
-		rs = stmt.executeQuery("select * from receta_ingredientes");
+		rs = stmt.executeQuery("select * from IngredientesEnReceta");
 		while (rs.next()) {
 			row = rs.getString(1) + ";" + rs.getString(2) + ";" + rs.getString(3);
 			listaIngredientesEnRecetas.add(new IngredienteEnReceta(row.split(";")));
