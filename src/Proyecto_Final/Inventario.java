@@ -16,10 +16,7 @@ public class Inventario {
 	public Inventario(String[] atributo) {
 		inventarioID = Integer.parseInt(atributo[0]);
 		userID = Integer.parseInt(atributo[1]);
-	}
-
-	public int getUserID() {
-		return userID;
+		ingredientes = new ArrayList<IngredienteEnInventario>();
 	}
 
 	public int getInventarioID() {
@@ -30,24 +27,24 @@ public class Inventario {
 		this.inventarioID = inventarioID;
 	}
 
-	public ArrayList<IngredienteEnInventario> getIngredientes() {
-		return ingredientes;
+	public int getUserID() {
+		return userID;
 	}
 
 	public void setUserID(int userID) {
 		this.userID = userID;
 	}
 
-	public String toString() {
-		return "\n\nInventarioID: " + inventarioID + "\nuserID: " + userID + "\ningredientes: " + ingredientes + "\n";
+	public ArrayList<IngredienteEnInventario> getIngredientes() {
+		return ingredientes;
 	}
 
-	public void setIngredientes(IngredienteEnBBDD[] ingredientesArray, String atributos) {
-		ingredientes = new ArrayList<IngredienteEnInventario>();
-		for (int i = 0; i < ingredientesArray.length; i++) {
-			ingredientes.add(new IngredienteEnInventario(ingredientesArray[i], this.inventarioID,
-					atributos.split("&&")[i].split("€€")));
-		}
+	public void setIngrediente(IngredienteEnBBDD ing, String atributos) {
+		ingredientes.add(new IngredienteEnInventario(ing, atributos.split(";")));
+	}
+
+	public String toString() {
+		return inventarioID + "" + ingredientes + "\n";
 	}
 
 }

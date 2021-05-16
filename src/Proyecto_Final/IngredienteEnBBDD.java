@@ -10,6 +10,17 @@ public class IngredienteEnBBDD {
 	private boolean vegetal;
 	private boolean proteina_animal;
 
+	public IngredienteEnBBDD() {
+		id = 0;
+		nombre = "";
+		medida = "";
+		alergeno = false;
+		lactosa = false;
+		gluten = false;
+		vegetal = false;
+		proteina_animal = false;
+	}
+
 	public IngredienteEnBBDD(String[] atributo) {
 		id = Integer.parseInt(atributo[0]);
 		nombre = atributo[1];
@@ -106,9 +117,9 @@ public class IngredienteEnBBDD {
 	}
 
 	public String toString() {
-		return "\n\t\tIngrediente Nº: " + id + "\n\t\tNombre: " + nombre + "\n\t\tMedida: " + medida
-				+ "\n\t\tAlergeno: " + alergeno + "\n\t\tLactosa: " + lactosa + "\n\t\tGluten: " + gluten
-				+ "\n\t\tVegetal: " + vegetal + "\n\t\tProteina animal: " + proteina_animal;
+		return medida + "\n\tNombre: " + nombre + "\n\tIngredienteID: " + id + "\n\tAlergeno: " + alergeno
+				+ "\n\tLactosa: " + lactosa + "\n\tGluten: " + gluten + "\n\tVegetal: " + vegetal
+				+ "\n\tProteina animal: " + proteina_animal + "\n";
 	}
 
 	public String toArray() {

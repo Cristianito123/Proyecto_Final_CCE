@@ -1,8 +1,11 @@
 package Proyecto_Final;
 
+import java.util.ArrayList;
+
 public class Receta {
 	int recetaID;
 	String nombre;
+	private ArrayList<IngredienteEnReceta> ingredientes;
 	String descripcion;
 	String preparacion;
 	boolean vegetariano;
@@ -13,9 +16,25 @@ public class Receta {
 	String imagenUrl;
 	int tiempo;
 
+	public Receta() {
+		recetaID = 0;
+		nombre = "";
+		ingredientes = new ArrayList<IngredienteEnReceta>();
+		descripcion = "";
+		preparacion = "";
+		vegetariano = false;
+		vegano = false;
+		salado = false;
+		dulce = false;
+		picante = false;
+		imagenUrl = "";
+		tiempo = 0;
+	}
+
 	public Receta(String[] atributo) {
 		recetaID = Integer.parseInt(atributo[0]);
 		nombre = atributo[1];
+		ingredientes = new ArrayList<IngredienteEnReceta>();
 		descripcion = atributo[2];
 		preparacion = atributo[3];
 		if (atributo[4].equalsIgnoreCase("1")) {
@@ -47,11 +66,11 @@ public class Receta {
 		tiempo = Integer.parseInt(atributo[6]);
 	}
 
-	public int getId() {
+	public int getRecetaID() {
 		return recetaID;
 	}
 
-	public void setId(int id) {
+	public void setRecetaID(int id) {
 		this.recetaID = id;
 	}
 
@@ -61,6 +80,14 @@ public class Receta {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public ArrayList<IngredienteEnReceta> getIngredientes() {
+		return ingredientes;
+	}
+
+	public void setIngrediente(IngredienteEnBBDD ing, String atributos) {
+		ingredientes.add(new IngredienteEnReceta(ing, atributos.split(";")));
 	}
 
 	public String getDescripcion() {
@@ -137,8 +164,9 @@ public class Receta {
 
 	public String toString() {
 		return "\n\nrecetaID: " + recetaID + "\nnombre: " + nombre + "\ndescripcion: " + descripcion + "\npreparacion: "
-				+ preparacion + "\nvegetariano: " + vegetariano + "\nvegano: " + vegano + "\nsalado: " + salado
-				+ "\ndulce: " + dulce + "\npicante: " + picante + "\ntiempo: " + tiempo;
+				+ preparacion + "\ningredientes: " + ingredientes + "\nvegetariano: " + vegetariano + "\nvegano: "
+				+ vegano + "\nsalado: " + salado + "\ndulce: " + dulce + "\npicante: " + picante + "\ntiempo: "
+				+ tiempo;
 	}
 
 }

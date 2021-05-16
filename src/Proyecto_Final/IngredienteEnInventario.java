@@ -8,11 +8,11 @@ public class IngredienteEnInventario {
 	private double cantidad;
 	private LocalDateTime caducidad;
 
-	public IngredienteEnInventario(IngredienteEnBBDD ingrediente, int ID, String[] atributo) {
-		inventarioID = ID;
-		this.ingrediente = ingrediente;
-		cantidad = Double.parseDouble(atributo[0]);
-		caducidad = LocalDateTime.parse(atributo[1].replace(' ', 'T'));
+	public IngredienteEnInventario(IngredienteEnBBDD ing, String[] atributos) {
+		inventarioID = Integer.parseInt(atributos[0]);
+		ingrediente = ing;
+		cantidad = Double.parseDouble(atributos[1]);
+		caducidad = LocalDateTime.parse(atributos[2].replace(' ', 'T'));
 	}
 
 	public int getInventarioID() {
@@ -49,7 +49,6 @@ public class IngredienteEnInventario {
 
 	@Override
 	public String toString() {
-		return "\n\tIngrediente en inventarioID: " + inventarioID + "\n\tingrediente: " + ingrediente + "\n\tcantidad:"
-				+ cantidad + "\n\tcaducidad: " + caducidad + "\n";
+		return "\n\tcantidad en inventario: " + cantidad + ingrediente + "\tcaducidad: " + caducidad + "\n";
 	}
 }

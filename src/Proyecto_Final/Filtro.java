@@ -11,6 +11,18 @@ public class Filtro {
 	boolean buscar_dulce;
 	boolean buscar_picante;
 
+	public Filtro() {
+		userID = 0;
+		vegetariano = false;
+		vegano = false;
+		alergico = false;
+		intolerante_lactosa = false;
+		intolerante_gluten = false;
+		buscar_salado = false;
+		buscar_dulce = false;
+		buscar_picante = false;
+	}
+
 	public Filtro(String[] atributo) {
 		userID = Integer.parseInt(atributo[0]);
 		if (atributo[1].equalsIgnoreCase("1")) {
@@ -129,9 +141,9 @@ public class Filtro {
 
 	@Override
 	public String toString() {
-		return "\n\nuserID: " + userID + "\nvegetariano: " + vegetariano + "\nvegano: " + vegano + "\nalergico: "
-				+ alergico + "\nintolerante_lactosa: " + intolerante_lactosa + "\nintolerante_gluten: "
-				+ intolerante_gluten + "\nbuscar_salado: " + buscar_salado + "\nbuscar_dulce: " + buscar_dulce
-				+ "\nbuscar_picante: " + buscar_picante;
+		return "\n\tvegetariano: " + vegetariano + "\n\tvegano: " + vegano + "\n\talergico: " + alergico
+				+ "\n\tintolerante_lactosa: " + intolerante_lactosa + "\n\tintolerante_gluten: " + intolerante_gluten
+				+ "\n\tbuscar_salado: " + buscar_salado + "\n\tbuscar_dulce: " + buscar_dulce + "\n\tbuscar_picante: "
+				+ buscar_picante + "\n";
 	}
 }
