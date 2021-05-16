@@ -48,8 +48,8 @@ public class Inventario {
 	}
 
 	public String toString() {
-		return "\n\nuserID: " + userID + "\ningredienteID: " + ingredienteID + "\ncantidad: " + cantidad
-				+ "\ncaducidad: " + caducidad;
+		return "\n\nUserID: " + userID + "\nIngredienteID: " + ingredienteID + "\nCantidad: " + cantidad
+				+ "\nCaducidad: " + caducidad;
 	}
 
 }
