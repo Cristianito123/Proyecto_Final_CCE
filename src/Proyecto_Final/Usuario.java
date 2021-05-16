@@ -2,6 +2,8 @@ package Proyecto_Final;
 
 public class Usuario {
 	int userID;
+	Filtro filtro;
+	Inventario inventario;
 	String username;
 	String nombre;
 	String apellidos;
@@ -9,6 +11,8 @@ public class Usuario {
 
 	public Usuario(String[] atributo) {
 		userID = Integer.parseInt(atributo[0]);
+		filtro = new Filtro();
+		inventario = new Inventario();
 		username = atributo[1];
 		nombre = atributo[3];
 		apellidos = atributo[4];
@@ -21,6 +25,22 @@ public class Usuario {
 
 	public void setUserID(int id) {
 		this.userID = id;
+	}
+
+	public Filtro getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(String[] atributos) {
+		filtro = new Filtro(atributos);
+	}
+
+	public Inventario getInventario() {
+		return inventario;
+	}
+
+	public void setInventario(String atributos) {
+		inventario = new Inventario(atributos.split(";"));
 	}
 
 	public String getUsername() {
@@ -56,6 +76,7 @@ public class Usuario {
 	}
 
 	public String toString() {
-		return "\nid: " + userID + "\nUsername: " + username + "\nNombre: " + nombre + "\nApellidos: " + apellidos;
+		return "\nUsername: " + username + "\nNombre: " + nombre + "\nApellidos: " + apellidos + "\nUserID: "
+				+ "\nPreferencias: " + filtro + "\nInventarioID: " + userID + inventario + "\n";
 	}
 }

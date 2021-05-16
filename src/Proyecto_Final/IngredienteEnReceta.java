@@ -2,13 +2,13 @@ package Proyecto_Final;
 
 public class IngredienteEnReceta {
 	int recetaID;
-	int ingredienteID;
+	private IngredienteEnBBDD ingrediente;
 	double cantidad;
 
-	public IngredienteEnReceta(String[] atributo) {
-		recetaID = Integer.parseInt(atributo[0]);
-		ingredienteID = Integer.parseInt(atributo[1]);
-		cantidad = Double.parseDouble(atributo[2]);
+	public IngredienteEnReceta(IngredienteEnBBDD ing, String[] atributos) {
+		recetaID = Integer.parseInt(atributos[0]);
+		ingrediente = ing;
+		cantidad = Double.parseDouble(atributos[1]);
 	}
 
 	public int getRecetaID() {
@@ -19,12 +19,12 @@ public class IngredienteEnReceta {
 		this.recetaID = recetaID;
 	}
 
-	public int getIngredienteID() {
-		return ingredienteID;
+	public IngredienteEnBBDD getIngrediente() {
+		return ingrediente;
 	}
 
-	public void setIngredienteID(int ingredienteID) {
-		this.ingredienteID = ingredienteID;
+	public void setIngrediente(IngredienteEnBBDD ingrediente) {
+		this.ingrediente = ingrediente;
 	}
 
 	public double getCantidad() {
@@ -36,7 +36,7 @@ public class IngredienteEnReceta {
 	}
 
 	public String toString() {
-		return "\n\n recetaID: " + recetaID + "\ningredienteID: " + ingredienteID + "\ncantidad: " + cantidad;
+		return "\n\tcantidad: " + cantidad + ingrediente + "\n";
 	}
 
 }
