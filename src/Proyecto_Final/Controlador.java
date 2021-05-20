@@ -36,6 +36,10 @@ public class Controlador {
 			stmt = conn.createStatement();
 			System.out.println("conexion ok"); // TODO BORRAR
 			leerBBDD(rs, stmt);
+
+			stmt.close();
+			conn.close();
+			
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -95,7 +99,6 @@ public class Controlador {
 					for (IngredienteEnBBDD ing : listaIngredientes) {
 						if (ing.getId() == Integer.parseInt(ingredienteID)) {
 							listaUsuarios.get(i).getInventario().setIngrediente(ing, atributos);
-//							listaInventarios.get(i).setIngrediente(ing, atributos);
 						}
 					}
 				}
@@ -151,7 +154,6 @@ public class Controlador {
 		}
 		System.out.println("ingredientes de recetas ok"); // TODO BORRAR
 		rs.close();
-		stmt.close();
 		System.out.println("todo ok"); // TODO BORRAR
 
 	}
