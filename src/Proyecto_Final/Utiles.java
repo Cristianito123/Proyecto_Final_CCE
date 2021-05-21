@@ -5,18 +5,24 @@ import java.awt.Toolkit;
 //import java.util.Scanner;
 
 public class Utiles {
-	private Toolkit misc;
+	private Toolkit misc = Toolkit.getDefaultToolkit();
 	private Image favicon;
+	private VentanaLogin login;
+	private VentanaRegistro registro;
 //	private char n[] = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 //	private Scanner ent;
 //	private boolean error;
 //	private int num;
 //	private String cadena;
 
-	public Utiles() {
+	public Utiles(VentanaLogin ventanaLogin) {
+		login = ventanaLogin;
 //		ent = new Scanner(System.in);
-		misc = Toolkit.getDefaultToolkit();
 //		error = false;
+	}
+
+	public Utiles(VentanaRegistro ventanaRegistro) {
+		registro = ventanaRegistro;
 	}
 
 //	public String getString(String mensaje) { // GET STRING --------------------------------------------- GET STRING
@@ -299,7 +305,11 @@ public class Utiles {
 //		return num;
 //	} // --------------------------------------------------------------------------------------------------------------------------------------------
 
-	public void centrar(int anchoPanel, int altoPanel, VentanaLogin login, VentanaRegistro registro) {
+	public Utiles() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void centrar(int anchoPanel, int altoPanel) {
 		int anchoPantalla = misc.getScreenSize().width, altoPantalla = misc.getScreenSize().height;
 		if (login != null) {
 			login.setSize(anchoPanel, altoPanel);
@@ -311,7 +321,7 @@ public class Utiles {
 		}
 	}
 
-	public void setFavicon(String ruta, VentanaLogin login, VentanaRegistro registro) {
+	public void setFavicon(String ruta) {
 		favicon = misc.getImage(ruta);
 		if (login != null) {
 			login.setIconImage(favicon);
@@ -319,7 +329,14 @@ public class Utiles {
 		if (registro != null) {
 			registro.setIconImage(favicon);
 		}
+	}
 
+	public String getPass(char[] password) {
+		String pass = "";
+		for (int i = 0; i < password.length; i++) {
+			pass += password[i];
+		}
+		return pass;
 	}
 
 }

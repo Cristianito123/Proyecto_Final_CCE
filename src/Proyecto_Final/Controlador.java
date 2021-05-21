@@ -14,7 +14,6 @@ public class Controlador {
 	private VentanaLogin login;
 	private Utiles util = new Utiles();
 
-
 	public Controlador() {
 		login = new VentanaLogin(this);
 		listaIngredientes = new ArrayList<IngredienteEnBBDD>();
@@ -181,7 +180,7 @@ public class Controlador {
 		System.out.println(listaRecetas.toString());
 	}
 
-	public boolean checkUserPass(String user) {
+	public boolean checkUser(String user) {
 		for (Usuario bus : listaUsuarios) {
 			if (bus.getUsername().equalsIgnoreCase(user)) {
 				return true;
@@ -190,17 +189,18 @@ public class Controlador {
 		return false;
 	}
 
-	public boolean chekPass(char[] password) {
-		String pass="";
-		for (int i =0; i <password.length;i++) {
-			pass+=password[i];
-		}
+	public boolean chekPass(char[] password, String user) {
+		String pass = util.getPass(password);
 		for (Usuario bus : listaUsuarios) {
-			if (bus.getPassword().equalsIgnoreCase(pass)) {
+			if (bus.getPassword().equalsIgnoreCase(pass) && bus.getUsername().equalsIgnoreCase(user)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public void userAdd(String user, String nombre, String apellidos, String pass) {
+		listaUsuarios.add(new Usuario(user, nombre, apellidos, pass));
 	}
 
 }

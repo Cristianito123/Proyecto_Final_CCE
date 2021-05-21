@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.ImageIcon;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.Insets;
@@ -21,34 +20,31 @@ import java.awt.event.MouseEvent;
 
 public class VentanaRegistro extends JFrame implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel panRegister;
-	private Utiles util = new Utiles();
-
+	private Utiles util = new Utiles(this);
 	private VentanaLogin login;
-
-	private JPasswordField password;
-	private JPasswordField passwordVerif;
+	private JPasswordField password, passwordVerif;
 	private JTextField username, nombre, apellidos;
-
 	private JButton btnVolver, btnRegisterComplete;
-	private JLabel lblUsername, lblNombre, lblApellidos, lblPassword, lblVerificar, lblPasswordVerif, lblUsernameExist,
-			lblInvalidPass;
+	private Controlador control;
+	private JLabel lblTitulo, lblUsername, lblNombre, lblApellidos, lblPassword, lblVerificar, lblPasswordVerif,
+			lblUsernameExist, lblInvalidPass;
 
-	public VentanaRegistro(VentanaLogin ventanaLogin) {
+	public VentanaRegistro(VentanaLogin ventanaLogin, Controlador controlador, String user) {
 		setResizable(false);
 		addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
 				login.setVisible(true);
 			}
 		});
-
+		control = controlador;
 		login = ventanaLogin;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		panRegister = new JPanel();
 		panRegister.setBackground(Color.WHITE);
 		setTitle("Filp & Cook");
-		util.centrar(400, 300, null, this);
-		util.setFavicon("src/icon.png", null, this);
+		util.centrar(400, 300);
 		panRegister.setLayout(null);
 		setContentPane(panRegister);
 
@@ -61,7 +57,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		btnVolver.addActionListener(this);
 		panRegister.add(btnVolver);
 
-		JLabel lblTitulo = new JLabel("Nuevo registro");
+		lblTitulo = new JLabel("Nuevo registro");
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setBounds(150, 10, 100, 20);
@@ -69,12 +65,12 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 
 		username = new JTextField();
 		username.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				lblUsernameExist.setVisible(false);
 			}
 		});
 		username.setBounds(150, 57, 100, 19);
+		username.setText(user);
 		panRegister.add(username);
 		username.setColumns(10);
 
@@ -86,7 +82,6 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 
 		passwordVerif = new JPasswordField();
 		passwordVerif.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				lblInvalidPass.setVisible(false);
 			}
@@ -94,7 +89,6 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		passwordVerif.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		passwordVerif.setBounds(150, 181, 100, 19);
 		panRegister.add(passwordVerif);
-//		passwordVerif.sh
 		passwordVerif.setColumns(10);
 
 		nombre = new JTextField();
@@ -139,31 +133,28 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		lblPasswordVerif.setBounds(70, 188, 70, 13);
 		panRegister.add(lblPasswordVerif);
 
-		lblUsernameExist = new JLabel("Nombre de usuario ya existe");
+		lblUsernameExist = new JLabel("Ya existe");
 		lblUsernameExist.setVisible(false);
 		lblUsernameExist.setForeground(Color.RED);
-		lblUsernameExist.setBounds(260, 60, 140, 13);
+		lblUsernameExist.setBounds(255, 60, 140, 13);
 		panRegister.add(lblUsernameExist);
 
-		lblInvalidPass = new JLabel("Contrase\u00F1a no coincide");
+		lblInvalidPass = new JLabel("No coincide");
 		lblInvalidPass.setVisible(false);
 		lblInvalidPass.setForeground(Color.RED);
-		lblInvalidPass.setBounds(276, 184, 140, 13);
+		lblInvalidPass.setBounds(265, 184, 140, 13);
 		panRegister.add(lblInvalidPass);
 
 		JLabel iconPassHiden = new JLabel("\uD83D\uDC41");
 		iconPassHiden.setFont(UIManager.getFont("ColorChooser.font"));
 		iconPassHiden.setIcon(null);
-		iconPassHiden.setBounds(255, 144, 13, 13);
+		iconPassHiden.setBounds(250, 144, 13, 13);
 		iconPassHiden.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mousePressed(MouseEvent e) {
 				password.setFont(new Font("Tahoma", Font.PLAIN, 13));
 				password.setEchoChar((char) 0);
-
 			}
 
-			@Override
 			public void mouseReleased(MouseEvent e) {
 				password.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				password.setEchoChar('•');
@@ -173,16 +164,13 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 
 		JLabel iconPassHiden_2 = new JLabel("\uD83D\uDC41");
 		iconPassHiden_2.setFont(UIManager.getFont("ColorChooser.font"));
-		iconPassHiden_2.setBounds(255, 183, 13, 13);
+		iconPassHiden_2.setBounds(250, 183, 13, 13);
 		iconPassHiden_2.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mousePressed(MouseEvent e) {
 				passwordVerif.setFont(new Font("Tahoma", Font.PLAIN, 13));
 				passwordVerif.setEchoChar((char) 0);
-
 			}
 
-			@Override
 			public void mouseReleased(MouseEvent e) {
 				passwordVerif.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				passwordVerif.setEchoChar('•');
@@ -200,9 +188,28 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 			login.setVisible(true);
 			dispose();
 		}
+		if (e.getSource() == btnRegisterComplete) {
+			System.out.println("verificando registro");
+			if (!control.checkUser(username.getText())) {
+				if (util.getPass(password.getPassword()).equalsIgnoreCase(util.getPass(passwordVerif.getPassword()))) {
+					System.out.println("coinciden");
+					control.userAdd(username.getText(), nombre.getText(), apellidos.getText(),
+							util.getPass(password.getPassword()));
+					VentanaPrincipal main = new VentanaPrincipal(username.getText());
+					main.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					dispose();
+				} else {
+					System.out.println("no coinciden");
+					lblInvalidPass.setVisible(true);
+				}
+			} else {
+				System.out.println("username ocupado");
+				lblUsernameExist.setVisible(true);
+
+			}
+//			login.setVisible(true);
+//			dispose();
+		}
 	}
 
-	public void pasarUsername(String userName) {
-		username.setText(userName);
-	}
 }
