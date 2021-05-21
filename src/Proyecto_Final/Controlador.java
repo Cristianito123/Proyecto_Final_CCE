@@ -11,11 +11,12 @@ public class Controlador {
 	private ArrayList<Receta> listaRecetas;
 	private ArrayList<IngredienteEnBBDD> listaIngredientes;
 	private ArrayList<Usuario> listaUsuarios;
+	private VentanaLogin login;
+	private Utiles util = new Utiles();
 
-	Utiles util = new Utiles();
 
-//TODO INICIO 17:34
 	public Controlador() {
+		login = new VentanaLogin(this);
 		listaIngredientes = new ArrayList<IngredienteEnBBDD>();
 		listaRecetas = new ArrayList<Receta>();
 		listaUsuarios = new ArrayList<Usuario>();
@@ -30,16 +31,18 @@ public class Controlador {
 		ResultSet rs = null;
 
 		try {
+			login.setProgBar(1);
 			System.out.println("Estableciendo conexion con la base de datos"); // TODO BORRAR
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection(url, user, pass);
 			stmt = conn.createStatement();
 			System.out.println("conexion ok"); // TODO BORRAR
+			login.setProgBar(5);
 			leerBBDD(rs, stmt);
 
 			stmt.close();
 			conn.close();
-			
+
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -60,6 +63,7 @@ public class Controlador {
 			}
 		}
 		System.out.println("ingredientes en la BBDD ok"); // TODO BORRAR
+		login.setProgBar(10);
 
 		// POBLAR ARRAYLIST DE USUARIOS
 		rs = stmt.executeQuery("select * from usuario");
@@ -72,6 +76,7 @@ public class Controlador {
 			}
 		}
 		System.out.println("usuarios ok"); // TODO BORRAR
+		login.setProgBar(20);
 
 		// POBLAR ARRAYLIST DE INVENTARIOS
 		i = 0;
@@ -86,6 +91,7 @@ public class Controlador {
 			i++;
 		}
 		System.out.println("inventarios ok"); // TODO BORRAR
+		login.setProgBar(30);
 
 		// POBLAR INVENTARIOS CON INGREDIENTES
 		i = 0;
@@ -106,6 +112,7 @@ public class Controlador {
 			i++;
 		}
 		System.out.println("ingredientes en inventarios ok"); // TODO BORRAR
+		login.setProgBar(40);
 
 		// GUARDAR PREFERENCIAS DE LOS USUARIOS
 		i = 0;
@@ -122,6 +129,7 @@ public class Controlador {
 			i++;
 		}
 		System.out.println("filtros ok"); // TODO BORRAR
+		login.setProgBar(60);
 
 		// POBLAR ARRAYLIST DE RECETAS
 		rs = stmt.executeQuery("select * from receta");
@@ -134,6 +142,7 @@ public class Controlador {
 			}
 		}
 		System.out.println("recetas ok"); // TODO BORRAR
+		login.setProgBar(80);
 
 		// POBLAR RECETAS CON INGREDIENTES
 		i = 0;
@@ -152,9 +161,11 @@ public class Controlador {
 			}
 			i++;
 		}
+		login.setProgBar(100);
 		System.out.println("ingredientes de recetas ok"); // TODO BORRAR
 		rs.close();
 		System.out.println("todo ok"); // TODO BORRAR
+		login.hideProgBar();
 
 	}
 
@@ -168,6 +179,28 @@ public class Controlador {
 
 	public void mostrarRecetas() {
 		System.out.println(listaRecetas.toString());
+	}
+
+	public boolean checkUserPass(String user) {
+		for (Usuario bus : listaUsuarios) {
+			if (bus.getUsername().equalsIgnoreCase(user)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean chekPass(char[] password) {
+		String pass="";
+		for (int i =0; i <password.length;i++) {
+			pass+=password[i];
+		}
+		for (Usuario bus : listaUsuarios) {
+			if (bus.getPassword().equalsIgnoreCase(pass)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
