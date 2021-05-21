@@ -19,6 +19,18 @@ public class Usuario {
 		password = atributo[2];
 	}
 
+	public Usuario(String user, String nombre, String apellidos, String pass) {
+		// TODO generar el inventario y filtro nuevo ya que no existen al momento de dar
+		// de alta
+//		userID = Integer.parseInt(atributo[0]);
+//		filtro = new Filtro();
+//		inventario = new Inventario();
+//		username = atributo[1];
+//		nombre = atributo[3];
+//		apellidos = atributo[4];
+//		password = atributo[2];
+	}
+
 	public int getUserID() {
 		return userID;
 	}

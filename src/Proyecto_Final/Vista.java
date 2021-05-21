@@ -7,7 +7,6 @@ public class Vista {
 	public static void main(String arg[]) {
 		control = new Controlador();
 		System.out.println("holi :3");
-		
 
 //		control.mostrarIngredientes();
 //		

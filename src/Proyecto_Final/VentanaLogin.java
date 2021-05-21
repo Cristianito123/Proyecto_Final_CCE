@@ -22,42 +22,43 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel panLogin;
-	private Utiles util = new Utiles();
+	private Utiles util = new Utiles(this);
 	private JTextField username;
-	private JLabel lblUsername, lblPassword, lblRegister, banner, hiddenUsername, hidenInvalidPass, hidenForgotPass;
-	private JButton btnLogin, btnRegister;
 	private JPasswordField password;
-	private JLabel lblNewLabel;
+	private JButton btnLogin, btnRegister;
 	private JProgressBar progressBar;
+	private VentanaRegistro registro;
 	private Controlador control;
+	private JLabel lblUsername, lblPassword, lblpassHint, lblRegister, banner, hiddenUsername, hidenInvalidPass,
+			hidenForgotPass;
 
 	public VentanaLogin(Controlador controlador) {
 		control = controlador;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		panLogin = new JPanel();
 		panLogin.setBackground(Color.WHITE);
 		setTitle("Filp & Cook");
-		util.centrar(400, 300, this, null);
-		util.setFavicon("src/icon.png", this, null);
+		util.centrar(400, 300);
+		util.setFavicon("src/icon.png");
 		panLogin.setLayout(null);
 		setResizable(false);
 		setContentPane(panLogin);
 
 		username = new JTextField();
 		username.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				hiddenUsername.setVisible(false);
 			}
 		});
 		username.setMargin(new Insets(-3, 2, 2, 2));
 		username.setBounds(150, 86, 100, 19);
-		panLogin.add(username);
+		username.setText("");
 		username.setColumns(10);
+		panLogin.add(username);
 
 		password = new JPasswordField();
 		password.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mouseClicked(MouseEvent e) {
 				hidenInvalidPass.setVisible(false);
 			}
@@ -65,8 +66,8 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		password.setMargin(new Insets(-3, 0, 0, 0));
 		password.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		password.setBounds(150, 116, 100, 19);
-		panLogin.add(password);
 		password.setColumns(10);
+		panLogin.add(password);
 
 		btnLogin = new JButton("LOGIN");
 		btnLogin.setBounds(150, 146, 100, 21);
@@ -94,8 +95,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		panLogin.add(lblRegister);
 
 		banner = new JLabel("");
-		banner.setIcon(
-				new ImageIcon("C:\\Users\\Zther\\git\\Proyecto_Final_CCE\\src\\horizontal_on_white_by_logaster-1.png"));
+		banner.setIcon(new ImageIcon("src/banner.png"));
 		banner.setFont(new Font("Tahoma", Font.PLAIN, 60));
 		banner.setHorizontalAlignment(SwingConstants.CENTER);
 		banner.setBounds(25, 10, 350, 50);
@@ -104,13 +104,13 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		hiddenUsername = new JLabel("Usuario no existe");
 		hiddenUsername.setVisible(false);
 		hiddenUsername.setForeground(Color.RED);
-		hiddenUsername.setBounds(256, 89, 140, 13);
+		hiddenUsername.setBounds(255, 89, 140, 13);
 		panLogin.add(hiddenUsername);
 
 		hidenInvalidPass = new JLabel("Contrase\u00F1a invalida");
 		hidenInvalidPass.setVisible(false);
 		hidenInvalidPass.setForeground(Color.RED);
-		hidenInvalidPass.setBounds(272, 119, 140, 13);
+		hidenInvalidPass.setBounds(265, 119, 140, 13);
 		panLogin.add(hidenInvalidPass);
 
 		hidenForgotPass = new JLabel("\u00BFHas olvidado la contrase\u00F1a?");
@@ -120,8 +120,8 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		hidenForgotPass.setBounds(100, 173, 200, 15);
 		panLogin.add(hidenForgotPass);
 
-		lblNewLabel = new JLabel("\uD83D\uDC41");
-		lblNewLabel.addMouseListener(new MouseAdapter() {
+		lblpassHint = new JLabel("\uD83D\uDC41");
+		lblpassHint.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				password.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -134,36 +134,31 @@ public class VentanaLogin extends JFrame implements ActionListener {
 				password.setEchoChar('•');
 			}
 		});
-		lblNewLabel.setFont(UIManager.getFont("ColorChooser.font"));
-		lblNewLabel.setBounds(255, 118, 13, 13);
-		panLogin.add(lblNewLabel);
+		lblpassHint.setFont(UIManager.getFont("ColorChooser.font"));
+		lblpassHint.setBounds(250, 118, 13, 13);
+		panLogin.add(lblpassHint);
 
 		progressBar = new JProgressBar();
 		progressBar.setBounds(-2, 250, 389, 20);
-		panLogin.add(progressBar);
 		progressBar.setValue(0);
+		panLogin.add(progressBar);
 
 		setVisible(true);
-
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnRegister) {
 			System.out.println("abriendo ventana de registro");
-			VentanaRegistro registro = new VentanaRegistro(this);
-
-			if (!username.getText().isEmpty()) {
-				registro.pasarUsername(username.getText());
-			}
-
+			registro = new VentanaRegistro(this, control, username.getText());
+			registro.setIconImage(getIconImage());
 			dispose();
 
 		}
 		if (e.getSource() == btnLogin) {
-			if (control.checkUserPass(username.getText())) {
-				if (control.chekPass(password.getPassword())) {
+			if (control.checkUser(username.getText())) {
+				if (control.chekPass(password.getPassword(), username.getText())) {
 					System.out.println("user ok, abriendo ventana main");
-					VentanarPrincipal main = new VentanarPrincipal();
+					VentanaPrincipal main = new VentanaPrincipal(username.getText());
 					main.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					dispose();
 				} else {
@@ -185,4 +180,5 @@ public class VentanaLogin extends JFrame implements ActionListener {
 	public void hideProgBar() {
 		progressBar.setVisible(false);
 	}
+
 }
