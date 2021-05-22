@@ -1,34 +1,32 @@
 package Proyecto_Final;
 
 public class Usuario {
-	int userID;
-	Filtro filtro;
-	Inventario inventario;
-	String username;
-	String nombre;
-	String apellidos;
-	String password;
+	private int userID;
+	private Filtro filtro;
+	private Inventario inventario;
+	private String username;
+	private String nombre;
+	private String apellidos;
+	private String password;
+
+	public Usuario() {
+		userID = 0;
+		filtro = new Filtro();
+		inventario = new Inventario();
+		username = "";
+		nombre = "";
+		apellidos = "";
+		password = "";
+	}
 
 	public Usuario(String[] atributo) {
 		userID = Integer.parseInt(atributo[0]);
-		filtro = new Filtro();
-		inventario = new Inventario();
+		filtro = new Filtro(atributo[0]);
+		inventario = new Inventario(atributo[0]);
 		username = atributo[1];
 		nombre = atributo[3];
 		apellidos = atributo[4];
 		password = atributo[2];
-	}
-
-	public Usuario(String user, String nombre, String apellidos, String pass) {
-		// TODO generar el inventario y filtro nuevo ya que no existen al momento de dar
-		// de alta
-//		userID = Integer.parseInt(atributo[0]);
-//		filtro = new Filtro();
-//		inventario = new Inventario();
-//		username = atributo[1];
-//		nombre = atributo[3];
-//		apellidos = atributo[4];
-//		password = atributo[2];
 	}
 
 	public int getUserID() {
@@ -88,7 +86,12 @@ public class Usuario {
 	}
 
 	public String toString() {
-		return "\nUsername: " + username + "\nNombre: " + nombre + "\nApellidos: " + apellidos + "\nUserID: "
-				+ "\nPreferencias: " + filtro + "\nInventarioID: " + userID + inventario + "\n";
+		return "\nUsername: " + username + "\nNombre: " + nombre + "\nApellidos: " + apellidos + "\nUserID: " + userID
+				+ "\nPreferencias: " + filtro + "\nInventarioID: " + inventario + "\n";
+	}
+
+	public void toInsert() {
+		// TODO Auto-generated method stub
+
 	}
 }

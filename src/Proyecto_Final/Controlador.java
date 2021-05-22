@@ -20,11 +20,6 @@ public class Controlador {
 		listaRecetas = new ArrayList<Receta>();
 		listaUsuarios = new ArrayList<Usuario>();
 
-		String bd = "PF_CCE";
-		String url = "jdbc:mysql://34.91.89.112:3306/" + bd;
-		String user = "zther";
-		String pass = "zther";
-
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -33,7 +28,7 @@ public class Controlador {
 			login.setProgBar(1);
 			System.out.println("Estableciendo conexion con la base de datos"); // TODO BORRAR
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(url, user, pass);
+			conn = DriverManager.getConnection("jdbc:mysql://34.91.89.112:3306/PF_CCE", "zther", "zther");
 			stmt = conn.createStatement();
 			System.out.println("conexion ok"); // TODO BORRAR
 			login.setProgBar(5);
@@ -200,7 +195,52 @@ public class Controlador {
 	}
 
 	public void userAdd(String user, String nombre, String apellidos, String pass) {
-		listaUsuarios.add(new Usuario(user, nombre, apellidos, pass));
+		String atributos = "";
+		if (listaUsuarios.size() > 0) {
+			atributos += (listaUsuarios.get(listaUsuarios.size() - 1).getUserID() + 1);
+		} else {
+			atributos += "1";
+		}
+		atributos += ";" + user + ";" + pass + ";" + nombre + ";" + apellidos;
+		listaUsuarios.add(new Usuario(atributos.split(";")));
 	}
 
+	public void updateBBDD() {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			login.setProgBar(1);
+			System.out.println("Estableciendo conexion con la base de datos"); // TODO BORRAR
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://34.91.89.112:3306/PF_CCE", "zther", "zther");
+			stmt = conn.createStatement();
+			System.out.println("conexion ok"); // TODO BORRAR
+
+			for (IngredienteEnBBDD ing : listaIngredientes) {
+
+			}
+
+			for (Usuario user : listaUsuarios) {
+				user.toInsert();
+				user.getFiltro().toInsert();
+				user.getInventario().toInsert();
+				ArrayList<IngredienteEnInventario> ingredientes = user.getInventario().getIngredientes();
+				for (IngredienteEnInventario ingrediente : ingredientes) {
+					ingrediente.toInsert();
+				}
+			}
+
+			for (Receta list : listaRecetas) {
+
+			}
+
+			stmt.close();
+			conn.close();
+
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
 }

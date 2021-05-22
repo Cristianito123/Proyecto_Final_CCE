@@ -158,7 +158,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 			if (control.checkUser(username.getText())) {
 				if (control.chekPass(password.getPassword(), username.getText())) {
 					System.out.println("user ok, abriendo ventana main");
-					VentanaPrincipal main = new VentanaPrincipal(username.getText());
+					VentanaPrincipal main = new VentanaPrincipal(this, control, username.getText());
 					main.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					dispose();
 				} else {

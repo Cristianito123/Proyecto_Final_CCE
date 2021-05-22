@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class VentanaPrincipal extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private Controlador control;
+	private VentanaLogin login;
 	private JPanel contentPane, panel;
 	private JScrollPane scrollPane;
 	private int alto = 0, mov = 0;
@@ -21,8 +23,12 @@ public class VentanaPrincipal extends JFrame {
 	private ArrayList<JButton> ingredientes;
 	private String logedUser;
 
-	public VentanaPrincipal(String username) {
+	public VentanaPrincipal(VentanaLogin ventanaLogin, Controlador controlador, String username) {
 		logedUser = username;
+		control = controlador;
+		login = ventanaLogin;
+		System.out.println(username);
+		control.mostrarUsuarios();
 		setTitle("Filp & Cook  Bienvenido " + logedUser);
 		ingredientes = new ArrayList<JButton>();
 		contentPane = new JPanel();

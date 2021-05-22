@@ -13,6 +13,12 @@ public class Inventario {
 		ingredientes = new ArrayList<IngredienteEnInventario>();
 	}
 
+	public Inventario(String id) {
+		inventarioID = Integer.parseInt(id);
+		userID = Integer.parseInt(id);
+		ingredientes = new ArrayList<IngredienteEnInventario>();
+	}
+
 	public Inventario(String[] atributo) {
 		inventarioID = Integer.parseInt(atributo[0]);
 		userID = Integer.parseInt(atributo[1]);
@@ -45,6 +51,11 @@ public class Inventario {
 
 	public String toString() {
 		return inventarioID + "" + ingredientes + "\n";
+	}
+
+	public void toInsert() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

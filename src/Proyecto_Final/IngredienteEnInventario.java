@@ -51,4 +51,9 @@ public class IngredienteEnInventario {
 	public String toString() {
 		return "\n\tcantidad en inventario: " + cantidad + ingrediente + "\tcaducidad: " + caducidad + "\n";
 	}
+
+	public void toInsert() {
+		// TODO Auto-generated method stub
+		
+	}
 }
