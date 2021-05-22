@@ -23,6 +23,18 @@ public class Filtro {
 		buscar_picante = false;
 	}
 
+	public Filtro(String id) {
+		userID = Integer.parseInt(id);
+		vegetariano = true;
+		vegano = true;
+		alergico = true;
+		intolerante_lactosa = false;
+		intolerante_gluten = false;
+		buscar_salado = false;
+		buscar_dulce = false;
+		buscar_picante = false;
+	}
+
 	public Filtro(String[] atributo) {
 		userID = Integer.parseInt(atributo[0]);
 		if (atributo[1].equalsIgnoreCase("1")) {
@@ -144,6 +156,11 @@ public class Filtro {
 		return "\n\tvegetariano: " + vegetariano + "\n\tvegano: " + vegano + "\n\talergico: " + alergico
 				+ "\n\tintolerante_lactosa: " + intolerante_lactosa + "\n\tintolerante_gluten: " + intolerante_gluten
 				+ "\n\tbuscar_salado: " + buscar_salado + "\n\tbuscar_dulce: " + buscar_dulce + "\n\tbuscar_picante: "
-				+ buscar_picante + "\n";
+				+ buscar_picante + "\n\tFiltro_userid_" + userID + "\n";
+	}
+
+	public void toInsert() {
+		// TODO Auto-generated method stub
+
 	}
 }

@@ -28,14 +28,20 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 	private JTextField username, nombre, apellidos;
 	private JButton btnVolver, btnRegisterComplete;
 	private Controlador control;
+	private boolean success = false;
 	private JLabel lblTitulo, lblUsername, lblNombre, lblApellidos, lblPassword, lblVerificar, lblPasswordVerif,
-			lblUsernameExist, lblInvalidPass;
+			lblUsernameExist, lblInvalidPass, lblIntroduceUsuario, lblIntroduceNombre, lblIntroduceApellidos,
+			lblIntroduceContraseña, iconPassHiden, iconPassHiden_2;
 
 	public VentanaRegistro(VentanaLogin ventanaLogin, Controlador controlador, String user) {
 		setResizable(false);
 		addWindowListener(new WindowAdapter() {
 			public void windowClosed(WindowEvent e) {
-				login.setVisible(true);
+				if (!success) {
+					login.setVisible(true);
+				} else {
+					success = false;
+				}
 			}
 		});
 		control = controlador;
@@ -67,6 +73,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		username.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				lblUsernameExist.setVisible(false);
+				lblIntroduceUsuario.setVisible(false);
 			}
 		});
 		username.setBounds(150, 57, 100, 19);
@@ -75,6 +82,11 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		username.setColumns(10);
 
 		password = new JPasswordField();
+		password.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblIntroduceContraseña.setVisible(false);
+			}
+		});
 		password.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		password.setBounds(150, 142, 100, 19);
 		panRegister.add(password);
@@ -92,11 +104,21 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		passwordVerif.setColumns(10);
 
 		nombre = new JTextField();
+		nombre.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblIntroduceNombre.setVisible(false);
+			}
+		});
 		nombre.setBounds(150, 84, 100, 19);
 		panRegister.add(nombre);
 		nombre.setColumns(10);
 
 		apellidos = new JTextField();
+		apellidos.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				lblIntroduceApellidos.setVisible(false);
+			}
+		});
 		apellidos.setBounds(150, 113, 100, 19);
 		panRegister.add(apellidos);
 		apellidos.setColumns(10);
@@ -145,7 +167,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		lblInvalidPass.setBounds(265, 184, 140, 13);
 		panRegister.add(lblInvalidPass);
 
-		JLabel iconPassHiden = new JLabel("\uD83D\uDC41");
+		iconPassHiden = new JLabel("\uD83D\uDC41");
 		iconPassHiden.setFont(UIManager.getFont("ColorChooser.font"));
 		iconPassHiden.setIcon(null);
 		iconPassHiden.setBounds(250, 144, 13, 13);
@@ -162,7 +184,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		});
 		panRegister.add(iconPassHiden);
 
-		JLabel iconPassHiden_2 = new JLabel("\uD83D\uDC41");
+		iconPassHiden_2 = new JLabel("\uD83D\uDC41");
 		iconPassHiden_2.setFont(UIManager.getFont("ColorChooser.font"));
 		iconPassHiden_2.setBounds(250, 183, 13, 13);
 		iconPassHiden_2.addMouseListener(new MouseAdapter() {
@@ -178,6 +200,30 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		});
 		panRegister.add(iconPassHiden_2);
 
+		lblIntroduceUsuario = new JLabel("Indica un nombre");
+		lblIntroduceUsuario.setForeground(Color.RED);
+		lblIntroduceUsuario.setBounds(255, 60, 140, 13);
+		lblIntroduceUsuario.setVisible(false);
+		panRegister.add(lblIntroduceUsuario);
+
+		lblIntroduceNombre = new JLabel("Indica un nombre");
+		lblIntroduceNombre.setForeground(Color.RED);
+		lblIntroduceNombre.setBounds(255, 87, 140, 13);
+		lblIntroduceNombre.setVisible(false);
+		panRegister.add(lblIntroduceNombre);
+
+		lblIntroduceApellidos = new JLabel("Indica los apellidos");
+		lblIntroduceApellidos.setForeground(Color.RED);
+		lblIntroduceApellidos.setBounds(255, 116, 140, 13);
+		lblIntroduceApellidos.setVisible(false);
+		panRegister.add(lblIntroduceApellidos);
+
+		lblIntroduceContraseña = new JLabel("Contrase\u00F1a invalida");
+		lblIntroduceContraseña.setForeground(Color.RED);
+		lblIntroduceContraseña.setBounds(265, 145, 140, 13);
+		lblIntroduceContraseña.setVisible(false);
+		panRegister.add(lblIntroduceContraseña);
+
 		setVisible(true);
 
 	}
@@ -190,26 +236,44 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		}
 		if (e.getSource() == btnRegisterComplete) {
 			System.out.println("verificando registro");
-			if (!control.checkUser(username.getText())) {
-				if (util.getPass(password.getPassword()).equalsIgnoreCase(util.getPass(passwordVerif.getPassword()))) {
-					System.out.println("coinciden");
-					control.userAdd(username.getText(), nombre.getText(), apellidos.getText(),
-							util.getPass(password.getPassword()));
-					VentanaPrincipal main = new VentanaPrincipal(username.getText());
-					main.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					dispose();
+			if (!username.getText().isBlank()) {
+				if (!nombre.getText().isBlank()) {
+					if (!apellidos.getText().isBlank()) {
+						if (!util.getPass(password.getPassword()).isBlank()) {
+							if (!control.checkUser(username.getText())) {
+								if (util.getPass(password.getPassword())
+										.equalsIgnoreCase(util.getPass(passwordVerif.getPassword()))) {
+									System.out.println("coinciden");
+									control.userAdd(username.getText(), nombre.getText(), apellidos.getText(),
+											util.getPass(password.getPassword()));
+									VentanaPrincipal main = new VentanaPrincipal(login, control, username.getText());
+									main.setExtendedState(JFrame.MAXIMIZED_BOTH);
+									success = true;
+									dispose();
+								} else {
+									System.out.println("no coinciden");
+									lblInvalidPass.setVisible(true);
+								}
+							} else {
+								System.out.println("username ocupado");
+								lblUsernameExist.setVisible(true);
+							}
+						} else {
+							System.out.println("pass vacio");
+							lblIntroduceContraseña.setVisible(true);
+						}
+					} else {
+						System.out.println("apellidos vacio");
+						lblIntroduceApellidos.setVisible(true);
+					}
 				} else {
-					System.out.println("no coinciden");
-					lblInvalidPass.setVisible(true);
+					System.out.println("nombe vacio");
+					lblIntroduceNombre.setVisible(true);
 				}
 			} else {
-				System.out.println("username ocupado");
-				lblUsernameExist.setVisible(true);
-
+				System.out.println("username vacio");
+				lblIntroduceUsuario.setVisible(true);
 			}
-//			login.setVisible(true);
-//			dispose();
 		}
 	}
-
 }
