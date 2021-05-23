@@ -169,4 +169,43 @@ public class Receta {
 				+ tiempo;
 	}
 
+	public String[] toInsert() {
+
+		int vege = 0;
+		int vega = 0;
+		int sala = 0;
+		int dulc = 0;
+		int pica = 0;
+
+		if (vegetariano) {
+			vege = 1;
+		} else {
+			vege = 0;
+		}
+		if (vegano) {
+			vega = 1;
+		} else {
+			vega = 0;
+		}
+		if (salado) {
+			sala = 1;
+		} else {
+			sala = 0;
+		}
+		if (dulce) {
+			dulc = 1;
+		} else {
+			dulc = 0;
+		}
+		if (picante) {
+			pica = 1;
+		} else {
+			pica = 0;
+		}
+
+		String insert = recetaID + ";" + nombre + ";" + descripcion + ";" + preparacion + ";" + vege + ";" + vega + ";"
+				+ tiempo + ";" + sala + ";" + dulc + ";" + pica + ";" + imagenUrl;
+		return insert.split(";");
+	}
+
 }

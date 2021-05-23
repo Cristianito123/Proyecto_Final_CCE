@@ -52,8 +52,8 @@ public class IngredienteEnInventario {
 		return "\n\tcantidad en inventario: " + cantidad + ingrediente + "\tcaducidad: " + caducidad + "\n";
 	}
 
-	public void toInsert() {
-		// TODO Auto-generated method stub
-		
+	public String[] toInsert() {
+		String insert = inventarioID + ";" + ingrediente.getId() + ";" + cantidad + ";" + caducidad.toString().replace("T", " ");
+		return insert.split(";");
 	}
 }

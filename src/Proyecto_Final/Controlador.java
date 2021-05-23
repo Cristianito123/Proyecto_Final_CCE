@@ -2,6 +2,7 @@ package Proyecto_Final;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -205,34 +206,75 @@ public class Controlador {
 		listaUsuarios.add(new Usuario(atributos.split(";")));
 	}
 
-	public void updateBBDD() {
+	public void insertBBDD(String orden) {
 		Connection conn = null;
 		Statement stmt = null;
-		ResultSet rs = null;
 
 		try {
-			login.setProgBar(1);
-			System.out.println("Estableciendo conexion con la base de datos"); // TODO BORRAR
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conn = DriverManager.getConnection("jdbc:mysql://34.91.89.112:3306/PF_CCE", "zther", "zther");
 			stmt = conn.createStatement();
-			System.out.println("conexion ok"); // TODO BORRAR
-
-			for (IngredienteEnBBDD ing : listaIngredientes) {
-
-			}
-
-			for (Usuario user : listaUsuarios) {
-				user.toInsert();
-				user.getFiltro().toInsert();
-				user.getInventario().toInsert();
-				ArrayList<IngredienteEnInventario> ingredientes = user.getInventario().getIngredientes();
-				for (IngredienteEnInventario ingrediente : ingredientes) {
-					ingrediente.toInsert();
+//"INSERT IGNORE INTO ? VALUES (?)"
+			switch (orden) {
+			case "ingrediente":
+				// TODO PENDIENTE DE PROBAR CUANDO SE IMPLEMENTE UN ALTA INGREDIENTE
+				for (IngredienteEnBBDD ing : listaIngredientes) {
+					String[] ingrediente = ing.toInsert();
+					stmt.executeUpdate("INSERT IGNORE INTO filtro VALUES (" + ingrediente[0] + ",'" + ingrediente[1]
+							+ "','" + ingrediente[2] + "'," + ingrediente[3] + "," + ingrediente[4] + ","
+							+ ingrediente[5] + "," + ingrediente[6] + "," + ingrediente[7] + ")");
 				}
-			}
+				break;
+			case "usuario":
+				for (Usuario user : listaUsuarios) {
 
-			for (Receta list : listaRecetas) {
+					String[] usuario = user.toInsert();
+					stmt.executeUpdate("INSERT IGNORE INTO usuario VALUES (" + usuario[0] + ",'" + usuario[1] + "','"
+							+ usuario[2] + "','" + usuario[3] + "','" + usuario[4] + "')");
+//					pstmt.setString(2, usuario[0] + "','" + usuario[1] + "','" + usuario[2] + "','" + usuario[3] + "','"
+//							+ usuario[4]);
+//					pstmt.executeUpdate();
+
+					String[] filtro = user.getFiltro().toInsert();
+//					pstmt.setString(1, "filtro");
+					stmt.executeUpdate("INSERT IGNORE INTO filtro VALUES (" + filtro[0] + "," + filtro[1] + ","
+							+ filtro[2] + "," + filtro[3] + "," + filtro[4] + "," + filtro[5] + "," + filtro[6] + ","
+							+ filtro[7] + "," + filtro[8] + ")");
+//					pstmt.executeUpdate();
+
+					String[] inventario = user.getInventario().toInsert();
+//					pstmt.setString(1, "Inventario");
+					stmt.executeUpdate(
+							"INSERT IGNORE INTO Inventario VALUES (" + inventario[0] + "," + inventario[1] + ")");
+//					pstmt.executeUpdate();
+
+					ArrayList<IngredienteEnInventario> ingredientes = user.getInventario().getIngredientes();
+					for (IngredienteEnInventario ingrediente : ingredientes) {
+						String[] ing = ingrediente.toInsert();
+//						pstmt.setString(1, "IngredientesEnInventario");
+						stmt.executeUpdate("INSERT IGNORE INTO IngredientesEnInventario VALUES (" + ing[0] + ","
+								+ ing[1] + "," + ing[2] + ",'" + ing[3] + "')");
+//						pstmt.executeUpdate();
+					}
+				}
+				break;
+			case "receta":
+				// TODO PENDIENTE DE PROBAR CUANDO SE IMPLEMENTE UN ALTA RECETA
+				for (Receta list : listaRecetas) {
+					String[] receta = list.toInsert();
+					stmt.executeUpdate("INSERT IGNORE INTO receta VALUES (" + receta[0] + ",'" + receta[1] + "','"
+							+ receta[2] + "','" + receta[3] + "'," + receta[4] + "," + receta[5] + "," + receta[6] + ","
+							+ receta[7] + "," + receta[8] + "," + receta[9] + ",'" + receta[10] + "')");
+
+					ArrayList<IngredienteEnReceta> ingredientes = list.getIngredientes();
+					for (IngredienteEnReceta ingrediente : ingredientes) {
+						String[] ing = ingrediente.toInsert();
+						stmt.executeUpdate("INSERT IGNORE INTO IngredientesEnReceta VALUES (" + ing[0] + "," + ing[1]
+								+ "," + ing[2] + "')");
+					}
+				}
+				break;
+			case "preparar":
 
 			}
 
@@ -242,5 +284,89 @@ public class Controlador {
 		} catch (ClassNotFoundException | SQLException e1) {
 			e1.printStackTrace();
 		}
+	}
+
+	public void updateBBDD(String orden) {
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			conn = DriverManager.getConnection("jdbc:mysql://34.91.89.112:3306/PF_CCE", "zther", "zther");
+
+//"INSERT IGNORE INTO ? VALUES (?)"
+			switch (orden) {
+			case "ingrediente":
+				pstmt = conn.prepareStatement("");
+
+				for (IngredienteEnBBDD ing : listaIngredientes) {
+					String[] ingrediente = ing.toInsert();
+					pstmt.executeUpdate("INSERT IGNORE INTO filtro VALUES (" + ingrediente[0] + ",'" + ingrediente[1]
+							+ "','" + ingrediente[2] + "'," + ingrediente[3] + "," + ingrediente[4] + ","
+							+ ingrediente[5] + "," + ingrediente[6] + "," + ingrediente[7] + ")");
+				}
+				break;
+			case "usuario":
+				pstmt = conn.prepareStatement("");
+				for (Usuario user : listaUsuarios) {
+
+					String[] usuario = user.toInsert();
+					pstmt.executeUpdate("INSERT IGNORE INTO usuario VALUES (" + usuario[0] + ",'" + usuario[1] + "','"
+							+ usuario[2] + "','" + usuario[3] + "','" + usuario[4] + "')");
+//					pstmt.setString(2, usuario[0] + "','" + usuario[1] + "','" + usuario[2] + "','" + usuario[3] + "','"
+//							+ usuario[4]);
+//					pstmt.executeUpdate();
+
+					String[] filtro = user.getFiltro().toInsert();
+//					pstmt.setString(1, "filtro");
+					pstmt.executeUpdate("INSERT IGNORE INTO filtro VALUES (" + filtro[0] + "," + filtro[1] + ","
+							+ filtro[2] + "," + filtro[3] + "," + filtro[4] + "," + filtro[5] + "," + filtro[6] + ","
+							+ filtro[7] + "," + filtro[8] + ")");
+//					pstmt.executeUpdate();
+
+					String[] inventario = user.getInventario().toInsert();
+//					pstmt.setString(1, "Inventario");
+					pstmt.executeUpdate(
+							"INSERT IGNORE INTO Inventario VALUES (" + inventario[0] + "," + inventario[1] + ")");
+//					pstmt.executeUpdate();
+
+					ArrayList<IngredienteEnInventario> ingredientes = user.getInventario().getIngredientes();
+					for (IngredienteEnInventario ingrediente : ingredientes) {
+						String[] ing = ingrediente.toInsert();
+//						pstmt.setString(1, "IngredientesEnInventario");
+						pstmt.executeUpdate("INSERT IGNORE INTO IngredientesEnInventario VALUES (" + ing[0] + ","
+								+ ing[1] + "," + ing[2] + ",'" + ing[3] + "')");
+//						pstmt.executeUpdate();
+					}
+				}
+				break;
+			case "receta":
+				pstmt = conn.prepareStatement("");
+				for (Receta list : listaRecetas) {
+					String[] receta = list.toInsert();
+					pstmt.executeUpdate("INSERT IGNORE INTO receta VALUES (" + receta[0] + ",'" + receta[1] + "','"
+							+ receta[2] + "','" + receta[3] + "'," + receta[4] + "," + receta[5] + "," + receta[6] + ","
+							+ receta[7] + "," + receta[8] + "," + receta[9] + ",'" + receta[10] + "')");
+				}
+
+			}
+
+			pstmt.close();
+			conn.close();
+
+		} catch (ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public ArrayList<IngredienteEnInventario> getListaIngEnInv(String logedUser) {
+		ArrayList<IngredienteEnInventario> listaIng = null;
+		for (Usuario bus : listaUsuarios) {
+			if (bus.getUsername().equalsIgnoreCase(logedUser)) {
+				listaIng = bus.getInventario().getIngredientes();
+				break;
+			}
+		}
+		return listaIng;
 	}
 }
