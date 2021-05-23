@@ -126,4 +126,42 @@ public class IngredienteEnBBDD {
 		return id + ";" + nombre + ";" + medida + ";" + alergeno + ";" + lactosa + ";" + gluten + ";" + vegetal + ";"
 				+ proteina_animal;
 	}
+
+	public String[] toInsert() {
+		int aler = 0;
+		int lact = 0;
+		int glut = 0;
+		int vege = 0;
+		int prot = 0;
+
+		if (alergeno) {
+			aler = 1;
+		} else {
+			aler = 0;
+		}
+		if (lactosa) {
+			lact = 1;
+		} else {
+			lact = 0;
+		}
+		if (gluten) {
+			glut = 1;
+		} else {
+			glut = 0;
+		}
+		if (vegetal) {
+			vege = 1;
+		} else {
+			vege = 0;
+		}
+		if (proteina_animal) {
+			prot = 1;
+		} else {
+			prot = 0;
+		}
+
+		String insert = id + ";" + nombre + ";" + medida + ";" + aler + ";" + lact + ";" + glut + ";" + vege + ";"
+				+ prot;
+		return insert.split(";");
+	}
 }

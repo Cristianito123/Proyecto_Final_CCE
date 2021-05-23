@@ -39,4 +39,9 @@ public class IngredienteEnReceta {
 		return "\n\tcantidad: " + cantidad + ingrediente + "\n";
 	}
 
+	public String[] toInsert() {
+		String insert = recetaID + ";" + ingrediente.getId() + ";" + cantidad;
+		return insert.split(";");
+	}
+
 }

@@ -25,9 +25,9 @@ public class Filtro {
 
 	public Filtro(String id) {
 		userID = Integer.parseInt(id);
-		vegetariano = true;
-		vegano = true;
-		alergico = true;
+		vegetariano = false;
+		vegano = false;
+		alergico = false;
 		intolerante_lactosa = false;
 		intolerante_gluten = false;
 		buscar_salado = false;
@@ -159,8 +159,60 @@ public class Filtro {
 				+ buscar_picante + "\n\tFiltro_userid_" + userID + "\n";
 	}
 
-	public void toInsert() {
-		// TODO Auto-generated method stub
+	public String[] toInsert() {
+		int vege = 0;
+		int vega = 0;
+		int aler = 0;
+		int int_lac = 0;
+		int int_glu = 0;
+		int buscar_s = 0;
+		int buscar_d = 0;
+		int buscar_p = 0;
 
+		if (vegetariano) {
+			vege = 1;
+		} else {
+			vege = 0;
+		}
+		if (vegano) {
+			vega = 1;
+		} else {
+			vega = 0;
+		}
+		if (alergico) {
+			aler = 1;
+		} else {
+			aler = 0;
+		}
+		if (intolerante_lactosa) {
+			int_lac = 1;
+		} else {
+			int_lac = 0;
+		}
+		if (intolerante_gluten) {
+			int_glu = 1;
+		} else {
+			int_glu = 0;
+		}
+		if (buscar_salado) {
+			buscar_s = 1;
+		} else {
+			buscar_s = 0;
+		}
+		if (buscar_dulce) {
+			buscar_d = 1;
+		} else {
+			buscar_d = 0;
+		}
+		if (buscar_picante) {
+			buscar_p = 1;
+		} else {
+			buscar_p = 0;
+		}
+
+		String insert = userID + ";" + vege + ";" + vega + ";" + aler + ";" + int_lac + ";" + int_glu + ";" + buscar_s
+				+ ";" + buscar_d + ";" + buscar_p;
+		return insert.split(";");
 	}
+
 }

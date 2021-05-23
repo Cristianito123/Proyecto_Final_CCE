@@ -10,11 +10,14 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Color;
 import java.awt.Insets;
 import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+
 import javax.swing.ImageIcon;
 import javax.swing.JProgressBar;
 
@@ -93,7 +96,6 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		lblRegister.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegister.setBounds(140, 194, 120, 15);
 		panLogin.add(lblRegister);
-
 		banner = new JLabel("");
 		banner.setIcon(new ImageIcon("src/banner.png"));
 		banner.setFont(new Font("Tahoma", Font.PLAIN, 60));

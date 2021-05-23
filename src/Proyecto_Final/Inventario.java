@@ -53,9 +53,9 @@ public class Inventario {
 		return inventarioID + "" + ingredientes + "\n";
 	}
 
-	public void toInsert() {
-		// TODO Auto-generated method stub
-		
+	public String[] toInsert() {
+		String insert = inventarioID + ";" + userID;
+		return insert.split(";");
 	}
 
 }

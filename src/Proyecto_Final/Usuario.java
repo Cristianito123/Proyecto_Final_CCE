@@ -90,8 +90,8 @@ public class Usuario {
 				+ "\nPreferencias: " + filtro + "\nInventarioID: " + inventario + "\n";
 	}
 
-	public void toInsert() {
-		// TODO Auto-generated method stub
-
+	public String[] toInsert() {
+		String insert = userID + ";" + username + ";" + password + ";" + nombre + ";" + apellidos;
+		return insert.split(";");
 	}
 }
