@@ -1,5 +1,8 @@
 package Proyecto_Final;
 
+import java.awt.Image;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,11 +10,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class Controlador {
 	private ArrayList<Receta> listaRecetas;
 	private ArrayList<IngredienteEnBBDD> listaIngredientes;
 	private ArrayList<Usuario> listaUsuarios;
+	private ArrayList<ImageIcon> listaImagenesRecetas;
 	private VentanaLogin login;
 	private Utiles util = new Utiles();
 
@@ -20,12 +26,14 @@ public class Controlador {
 		listaIngredientes = new ArrayList<IngredienteEnBBDD>();
 		listaRecetas = new ArrayList<Receta>();
 		listaUsuarios = new ArrayList<Usuario>();
+		listaImagenesRecetas = new ArrayList<ImageIcon>();
 
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 
 		try {
+
 			login.setProgBar(1);
 			System.out.println("Estableciendo conexion con la base de datos"); // TODO BORRAR
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -34,11 +42,12 @@ public class Controlador {
 			System.out.println("conexion ok"); // TODO BORRAR
 			login.setProgBar(5);
 			leerBBDD(rs, stmt);
+			cargarImagenes();
 
 			stmt.close();
 			conn.close();
 
-		} catch (ClassNotFoundException | SQLException e1) {
+		} catch (ClassNotFoundException | SQLException | IOException e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -160,7 +169,6 @@ public class Controlador {
 		System.out.println("ingredientes de recetas ok"); // TODO BORRAR
 		rs.close();
 		System.out.println("todo ok"); // TODO BORRAR
-		login.hideProgBar();
 
 	}
 
@@ -368,5 +376,43 @@ public class Controlador {
 			}
 		}
 		return listaIng;
+	}
+
+	public ArrayList<Receta> getRecetas() {
+		return listaRecetas;
+	}
+
+	private void cargarImagenes() throws IOException {
+		login.setProgBar(0);
+		int count = 100 / (listaRecetas.size());
+		int progreso = 0;
+		for (Receta bus : listaRecetas) {
+			URL url = new URL(bus.getImagenUrl());
+			ImageIcon image = new ImageIcon(ImageIO.read(url));
+			listaImagenesRecetas.add(new ImageIcon(image.getImage().getScaledInstance(140, 140, Image.SCALE_SMOOTH)));
+			progreso += count;
+			login.setProgBar(progreso);
+		}
+		login.hideProgBar();
+		login.setLoginReady();
+	}
+
+	public ArrayList<ImageIcon> getIconos() {
+		return listaImagenesRecetas;
+	}
+
+	public ArrayList<Usuario> getUserList() {
+		return listaUsuarios;
+
+	}
+
+	public int getUserID(String user) {
+		int userID = 0;
+		for (Usuario bus : listaUsuarios) {
+			if (bus.getUsername() == user) {
+				userID = bus.getUserID();
+			}
+		}
+		return userID;
 	}
 }
