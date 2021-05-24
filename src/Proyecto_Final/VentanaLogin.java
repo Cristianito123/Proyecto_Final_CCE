@@ -12,6 +12,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Insets;
 import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
@@ -20,6 +21,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
 import javax.swing.JProgressBar;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentanaLogin extends JFrame implements ActionListener {
 
@@ -49,6 +52,13 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		setContentPane(panLogin);
 
 		username = new JTextField();
+		username.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					password.grabFocus();
+				}
+			}
+		});
 		username.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				hiddenUsername.setVisible(false);
@@ -61,6 +71,14 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		panLogin.add(username);
 
 		password = new JPasswordField();
+		password.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER && !progressBar.isVisible()) {
+					System.out.println("triggered");
+					btnLogin.doClick();
+				}
+			}
+		});
 		password.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				hidenInvalidPass.setVisible(false);
@@ -76,12 +94,14 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		btnLogin.setBounds(150, 146, 100, 21);
 		btnLogin.setFocusable(false);
 		btnLogin.addActionListener(this);
+		btnLogin.setVisible(false);
 		panLogin.add(btnLogin);
 
 		btnRegister = new JButton("REGISTRATE");
 		btnRegister.setBounds(140, 217, 120, 21);
 		btnRegister.setFocusable(false);
 		btnRegister.addActionListener(this);
+		btnRegister.setVisible(false);
 		panLogin.add(btnRegister);
 
 		lblUsername = new JLabel("Usuario:");
@@ -95,7 +115,9 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		lblRegister = new JLabel("\u00BFEres nuevo?");
 		lblRegister.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRegister.setBounds(140, 194, 120, 15);
+		lblRegister.setVisible(false);
 		panLogin.add(lblRegister);
+
 		banner = new JLabel("");
 		banner.setIcon(new ImageIcon("src/banner.png"));
 		banner.setFont(new Font("Tahoma", Font.PLAIN, 60));
@@ -161,6 +183,8 @@ public class VentanaLogin extends JFrame implements ActionListener {
 				if (control.chekPass(password.getPassword(), username.getText())) {
 					System.out.println("user ok, abriendo ventana main");
 					VentanaPrincipal main = new VentanaPrincipal(this, control, username.getText());
+					main.setLocationRelativeTo(null);
+					main.setMinimumSize(new Dimension(1600, 1000));
 					main.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					dispose();
 				} else {
@@ -181,6 +205,12 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
 	public void hideProgBar() {
 		progressBar.setVisible(false);
+	}
+
+	public void setLoginReady() {
+		btnLogin.setVisible(true);
+		btnRegister.setVisible(true);
+		lblRegister.setVisible(true);
 	}
 
 }

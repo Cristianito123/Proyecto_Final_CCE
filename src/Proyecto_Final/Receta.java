@@ -3,18 +3,18 @@ package Proyecto_Final;
 import java.util.ArrayList;
 
 public class Receta {
-	int recetaID;
-	String nombre;
+	private int recetaID;
+	private String nombre;
 	private ArrayList<IngredienteEnReceta> ingredientes;
-	String descripcion;
-	String preparacion;
-	boolean vegetariano;
-	boolean vegano;
-	boolean salado;
-	boolean dulce;
-	boolean picante;
-	String imagenUrl;
-	int tiempo;
+	private String descripcion;
+	private String preparacion;
+	private boolean vegetariano;
+	private boolean vegano;
+	private boolean salado;
+	private boolean dulce;
+	private boolean picante;
+	private String imagenUrl;
+	private int tiempo;
 
 	public Receta() {
 		recetaID = 0;

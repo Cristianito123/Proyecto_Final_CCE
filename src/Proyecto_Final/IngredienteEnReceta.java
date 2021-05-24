@@ -1,9 +1,9 @@
 package Proyecto_Final;
 
 public class IngredienteEnReceta {
-	int recetaID;
+	private int recetaID;
 	private IngredienteEnBBDD ingrediente;
-	double cantidad;
+	private double cantidad;
 
 	public IngredienteEnReceta(IngredienteEnBBDD ing, String[] atributos) {
 		recetaID = Integer.parseInt(atributos[0]);

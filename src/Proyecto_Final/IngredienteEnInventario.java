@@ -53,7 +53,8 @@ public class IngredienteEnInventario {
 	}
 
 	public String[] toInsert() {
-		String insert = inventarioID + ";" + ingrediente.getId() + ";" + cantidad + ";" + caducidad.toString().replace("T", " ");
+		String insert = inventarioID + ";" + ingrediente.getId() + ";" + cantidad + ";"
+				+ caducidad.toString().replace("T", " ");
 		return insert.split(";");
 	}
 }

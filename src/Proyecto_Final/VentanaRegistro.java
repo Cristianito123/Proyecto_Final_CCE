@@ -17,6 +17,8 @@ import javax.swing.UIManager;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class VentanaRegistro extends JFrame implements ActionListener {
 
@@ -70,6 +72,13 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		panRegister.add(lblTitulo);
 
 		username = new JTextField();
+		username.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					nombre.grabFocus();
+				}
+			}
+		});
 		username.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				lblUsernameExist.setVisible(false);
@@ -82,6 +91,13 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		username.setColumns(10);
 
 		password = new JPasswordField();
+		password.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					passwordVerif.grabFocus();
+				}
+			}
+		});
 		password.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				lblIntroduceContraseña.setVisible(false);
@@ -93,6 +109,14 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		password.setColumns(10);
 
 		passwordVerif = new JPasswordField();
+		passwordVerif.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					System.out.println("triggered");
+					btnRegisterComplete.doClick();
+				}
+			}
+		});
 		passwordVerif.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				lblInvalidPass.setVisible(false);
@@ -104,6 +128,13 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		passwordVerif.setColumns(10);
 
 		nombre = new JTextField();
+		nombre.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					apellidos.grabFocus();
+				}
+			}
+		});
 		nombre.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				lblIntroduceNombre.setVisible(false);
@@ -114,6 +145,13 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		nombre.setColumns(10);
 
 		apellidos = new JTextField();
+		apellidos.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					password.grabFocus();
+				}
+			}
+		});
 		apellidos.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				lblIntroduceApellidos.setVisible(false);

@@ -1,15 +1,15 @@
 package Proyecto_Final;
 
 public class Filtro {
-	int userID;
-	boolean vegetariano;
-	boolean vegano;
-	boolean alergico;
-	boolean intolerante_lactosa;
-	boolean intolerante_gluten;
-	boolean buscar_salado;
-	boolean buscar_dulce;
-	boolean buscar_picante;
+	private int userID;
+	private boolean vegetariano;
+	private boolean vegano;
+	private boolean alergico;
+	private boolean intolerante_lactosa;
+	private boolean intolerante_gluten;
+	private boolean buscar_salado;
+	private boolean buscar_dulce;
+	private boolean buscar_picante;
 
 	public Filtro() {
 		userID = 0;
