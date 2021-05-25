@@ -22,8 +22,12 @@ public class Controlador {
 	private ArrayList<ImageIcon> listaImagenesRecetas;
 	private VentanaLogin login;
 	private Utiles util = new Utiles();
-	private String[] c= new String[3];
-	BufferedReader br;
+	private String[] c = new String[3];
+	private BufferedReader br;
+	private Connection conn = null;
+	private Statement stmt = null;
+	private PreparedStatement pstmt = null;
+	private ResultSet rs = null;
 
 	public Controlador() {
 		login = new VentanaLogin(this);
@@ -31,36 +35,53 @@ public class Controlador {
 		listaRecetas = new ArrayList<Receta>();
 		listaUsuarios = new ArrayList<Usuario>();
 		listaImagenesRecetas = new ArrayList<ImageIcon>();
+		login.setProgBar(3);
+		conectarBBDD();
+		login.setProgBar(6);
 
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
+		try {
+			leerBBDD();
+			cargarImagenes();
+		} catch (SQLException | IOException e1) {
+			e1.printStackTrace();
+		}
+		desconectarBBDD();
+	}
 
+	public void conectarBBDD() {
 		try {
 			br = new BufferedReader(new FileReader("src/file.txt"));
 			while (br.ready()) {
 				c = br.readLine().split(";");
 			}
 			br.close();
-			login.setProgBar(1);
 			System.out.println("Estableciendo conexion con la base de datos"); // TODO BORRAR
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection(c[0],c[1],c[2]);
-			stmt = conn.createStatement();
+			conn = DriverManager.getConnection(c[0], c[1], c[2]);
 			System.out.println("conexion ok"); // TODO BORRAR
-			login.setProgBar(5);
-			leerBBDD(rs, stmt);
-			cargarImagenes();
-
-			stmt.close();
-			conn.close();
-
 		} catch (ClassNotFoundException | SQLException | IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 
-	private void leerBBDD(ResultSet rs, Statement stmt) throws SQLException {
+	public void desconectarBBDD() {
+		try {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (stmt != null) {
+				stmt.close();
+			}
+//			if (conn!=null) {
+			conn.close();
+//			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void leerBBDD() throws SQLException {
+		stmt = conn.createStatement();
 		String row = "", atributos = "", ingredienteID = "";
 		int i = 0;
 		System.out.println("Leyendo base de datos"); // TODO BORRAR
@@ -75,7 +96,7 @@ public class Controlador {
 			}
 		}
 		System.out.println("ingredientes en la BBDD ok"); // TODO BORRAR
-		login.setProgBar(10);
+		login.setProgBar(12);
 
 		// POBLAR ARRAYLIST DE USUARIOS
 		rs = stmt.executeQuery("select * from usuario");
@@ -88,7 +109,7 @@ public class Controlador {
 			}
 		}
 		System.out.println("usuarios ok"); // TODO BORRAR
-		login.setProgBar(20);
+		login.setProgBar(18);
 
 		// POBLAR ARRAYLIST DE INVENTARIOS
 		i = 0;
@@ -103,7 +124,7 @@ public class Controlador {
 			i++;
 		}
 		System.out.println("inventarios ok"); // TODO BORRAR
-		login.setProgBar(30);
+		login.setProgBar(24);
 
 		// POBLAR INVENTARIOS CON INGREDIENTES
 		i = 0;
@@ -124,7 +145,7 @@ public class Controlador {
 			i++;
 		}
 		System.out.println("ingredientes en inventarios ok"); // TODO BORRAR
-		login.setProgBar(40);
+		login.setProgBar(30);
 
 		// GUARDAR PREFERENCIAS DE LOS USUARIOS
 		i = 0;
@@ -141,7 +162,7 @@ public class Controlador {
 			i++;
 		}
 		System.out.println("filtros ok"); // TODO BORRAR
-		login.setProgBar(60);
+		login.setProgBar(36);
 
 		// POBLAR ARRAYLIST DE RECETAS
 		rs = stmt.executeQuery("select * from receta");
@@ -154,7 +175,7 @@ public class Controlador {
 			}
 		}
 		System.out.println("recetas ok"); // TODO BORRAR
-		login.setProgBar(80);
+		login.setProgBar(42);
 
 		// POBLAR RECETAS CON INGREDIENTES
 		i = 0;
@@ -173,9 +194,8 @@ public class Controlador {
 			}
 			i++;
 		}
-		login.setProgBar(100);
+		login.setProgBar(50);
 		System.out.println("ingredientes de recetas ok"); // TODO BORRAR
-		rs.close();
 		System.out.println("todo ok"); // TODO BORRAR
 
 	}
@@ -223,12 +243,9 @@ public class Controlador {
 	}
 
 	public void insertBBDD(String orden) {
-		Connection conn = null;
-		Statement stmt = null;
-
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://34.91.89.112:3306/PF_CCE", "zther", "zther");
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+//			conn = DriverManager.getConnection(c[0],c[1],c[2]);
 			stmt = conn.createStatement();
 //"INSERT IGNORE INTO ? VALUES (?)"
 			switch (orden) {
@@ -294,21 +311,19 @@ public class Controlador {
 
 			}
 
-			stmt.close();
-			conn.close();
+			// TODO LLAMAR EL METODO desconectarBBDD SIEMPRE QUE SE USE EL METODO insertBBDD
 
-		} catch (ClassNotFoundException | SQLException e1) {
+		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 	}
 
-	public void updateBBDD(String orden) {
-		Connection conn = null;
-		PreparedStatement pstmt = null;
+	public void updateBBDD(String orden, String parametros) {
+		String[] parametro = parametros.split(";");
 
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://34.91.89.112:3306/PF_CCE", "zther", "zther");
+//			Class.forName("com.mysql.cj.jdbc.Driver");
+//			conn = DriverManager.getConnection(c[0],c[1],c[2]);
 
 //"INSERT IGNORE INTO ? VALUES (?)"
 			switch (orden) {
@@ -356,6 +371,34 @@ public class Controlador {
 					}
 				}
 				break;
+			case "ingEnInvUpdate":
+				pstmt = conn.prepareStatement(
+						"UPDATE IngredientesEnInventario SET cantidad = ? WHERE inventarioID = ? AND ingredienteID = ?");
+//				for (IngredienteEnInventario ing:listaUsuarios.get(Integer.parseInt(parametro[0])).getInventario().getIngredientes()) {
+//					
+//				}
+				pstmt.setString(1, parametro[0]);
+				pstmt.setString(2, parametro[1]);
+				pstmt.setString(3, parametro[2]);
+				pstmt.executeUpdate();
+				break;
+			case "ingEnInvDelete":
+				pstmt = conn.prepareStatement(
+						"DELETE FROM IngredientesEnInventario WHERE inventarioID = ? AND ingredienteID = ?");
+//				for (IngredienteEnInventario ing:listaUsuarios.get(Integer.parseInt(parametro[0])).getInventario().getIngredientes()) {
+//					
+//				}
+				pstmt.setString(1, parametro[0]);
+				pstmt.setString(2, parametro[1]);
+				pstmt.executeUpdate();
+				break;
+
+//				INSERT INTO IngredientesEnInventario (inventarioID, ingredienteID, cantidad, caducidad) VALUES (?,?,?,?) ON DUPLICATE KEY 
+//				UPDATE cantidad = ?	
+//				ejemplo
+//				INSERT INTO IngredientesEnInventario (inventarioID, ingredienteID, cantidad, caducidad) VALUES (2,0,2,'2025-06-30 15:04:50') ON DUPLICATE KEY 
+//				UPDATE cantidad = 2;
+
 			case "receta":
 				pstmt = conn.prepareStatement("");
 				for (Receta list : listaRecetas) {
@@ -367,10 +410,9 @@ public class Controlador {
 
 			}
 
-			pstmt.close();
-			conn.close();
+			// TODO LLAMAR EL METODO desconectarBBDD SIEMPRE QUE SE USE EL METODO updateBBDD
 
-		} catch (ClassNotFoundException | SQLException e1) {
+		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
 	}
@@ -391,9 +433,9 @@ public class Controlador {
 	}
 
 	private void cargarImagenes() throws IOException {
-		login.setProgBar(0);
-		int count = 100 / (listaRecetas.size());
-		int progreso = 0;
+//		login.setProgBar(0);
+		int count = 50 / (listaRecetas.size());
+		int progreso = 50;
 		for (Receta bus : listaRecetas) {
 			URL url = new URL(bus.getImagenUrl());
 			ImageIcon image = new ImageIcon(ImageIO.read(url));
@@ -422,5 +464,10 @@ public class Controlador {
 			}
 		}
 		return userID;
+	}
+
+	public void updateIngCant(double d, int inventarioID, int id) {
+		// TODO Auto-generated method stub
+
 	}
 }

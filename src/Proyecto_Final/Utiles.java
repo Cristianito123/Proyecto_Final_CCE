@@ -2,11 +2,13 @@ package Proyecto_Final;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+
+import javax.swing.ImageIcon;
 //import java.util.Scanner;
 
 public class Utiles {
 	private Toolkit misc = Toolkit.getDefaultToolkit();
-	private Image favicon;
+	private ImageIcon favicon;
 	private VentanaLogin login;
 	private VentanaRegistro registro;
 //	private char n[] = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
@@ -322,12 +324,12 @@ public class Utiles {
 	}
 
 	public void setFavicon(String ruta) {
-		favicon = misc.getImage(ruta);
+		favicon = new ImageIcon(ruta);
 		if (login != null) {
-			login.setIconImage(favicon);
+			login.setIconImage(favicon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH));
 		}
 		if (registro != null) {
-			registro.setIconImage(favicon);
+			registro.setIconImage(favicon.getImage());
 		}
 	}
 
