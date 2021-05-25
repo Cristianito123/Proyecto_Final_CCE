@@ -60,10 +60,10 @@ public class VentanaPrincipal extends JFrame {
 		ingredientesBuscar = new ArrayList<IngredienteEnInventario>();
 		ingredientesDispo = new ArrayList<IngredienteEnInventario>();
 
-//		contentPaneMain = new JPanel(); // TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA EJECUTAR! *MAIN**EJECUTAR*
+		contentPaneMain = new JPanel(); // TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA EJECUTAR! *MAIN**EJECUTAR*
 		contentPaneMenu = new JPanel(); // TODO QUITAR PARA TRABAJAR EN EL MAIN Y PONER PARA EJECUTAR! *MENU**EJECUTAR*
-//		setContentPane(contentPaneMain); // TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA EJECUTAR!*MAIN**EJECUTAR*
-		setContentPane(contentPaneMenu); // TODO PONER PARA TRABAJAR EN EL MENU Y QUITAR PARA EJECUTAR! *MENU*
+		setContentPane(contentPaneMain); // TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA EJECUTAR!*MAIN**EJECUTAR*
+//		setContentPane(contentPaneMenu); // TODO PONER PARA TRABAJAR EN EL MENU Y QUITAR PARA EJECUTAR! *MENU*
 
 		contentPaneMain.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPaneMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -103,7 +103,6 @@ public class VentanaPrincipal extends JFrame {
 		panelRecetas.setLayout(null);
 
 		mostrarListaIngredientes();
-//		mostratListaRecetas();
 
 		contentPaneMenu.add(panelMenu);
 		contentPaneMain.add(scrollPaneInventario);
@@ -200,14 +199,7 @@ public class VentanaPrincipal extends JFrame {
 		btnSyso.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				System.out.println("\n\n\nrecetasMostrar\n\n");
-//				System.out.println(recetasMostrar.toString());
-//				System.out.println("\n\n\ningredientesDispo\n\n");
-//				System.out.println(ingredientesDispo.toString());
-//				System.out.println("\n\n\ningredientesBuscar\n\n");
-//				System.out.println(ingredientesBuscar.toString());
 				System.out.println(control.getListaIngEnInv(logedUser));
-
 			}
 		});
 
@@ -258,8 +250,6 @@ public class VentanaPrincipal extends JFrame {
 		}
 	}
 
-//	(bus.getIngredientes().containsAll(control.getUserList().get(control.getUserID(logedUser))))
-//	if (bus.getIngredientes().containsAll(control.getListaIngEnInv(logedUser)))
 	private void mostraListaRecetas() {
 		panelRecetas.removeAll();
 		nombreReceta.removeAll(nombreReceta);
@@ -410,11 +400,6 @@ public class VentanaPrincipal extends JFrame {
 											control.updateBBDD("ingEnInvDelete",
 													ingInv.getInventarioID() + ";" + ingInv.getIngrediente().getId());
 										}
-//										else {
-//											System.out.println(
-//													"no dispones de suficiente" + ingInv.getIngrediente().getNombre());
-//											// TODO NOTIFICAR CON UN PANEL? o quitar el if cantidad pq ya lo solvente con la misma condicion pero para mostrar unicamente las recetas que cumplen este mismo if?
-//										}
 										break;
 									}
 								}
