@@ -190,7 +190,9 @@ public class VentanaPrincipal extends JFrame {
 					int pos = Integer.parseInt(name[0]);
 					int id = Integer.parseInt(name[1]);
 					if (ingredientes.get(pos).isSelected()) {
-						ingredientesBuscar.add(control.getListaIngEnInv(logedUser).get(id)); //TODO POSIBLE FALLO AL POSCICIONAR EL INGREDIENTE
+						ingredientesBuscar.add(control.getListaIngEnInv(logedUser).get(id)); // TODO POSIBLE FALLO AL
+																								// POSCICIONAR EL
+																								// INGREDIENTE
 					} else {
 						ingredientesBuscar.remove(control.getListaIngEnInv(logedUser).get(id));
 					}

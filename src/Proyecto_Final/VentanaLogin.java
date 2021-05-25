@@ -184,7 +184,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 					System.out.println("user ok, abriendo ventana main");
 					VentanaPrincipal main = new VentanaPrincipal(this, control, username.getText());
 					main.setLocationRelativeTo(null);
-					main.setMinimumSize(new Dimension(1600, 1000));
+					main.setMinimumSize(new Dimension(1480, 800));
 					main.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					dispose();
 				} else {
