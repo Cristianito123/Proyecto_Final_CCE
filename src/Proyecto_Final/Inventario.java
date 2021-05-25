@@ -1,18 +1,36 @@
 package Proyecto_Final;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 public class Inventario {
-	int userID;
-	int ingredienteID;
-	double cantidad;
-	LocalDateTime caducidad;
+	private int inventarioID;
+	private int userID;
+	private ArrayList<IngredienteEnInventario> ingredientes;
+
+	public Inventario() {
+		inventarioID = 0;
+		userID = 0;
+		ingredientes = new ArrayList<IngredienteEnInventario>();
+	}
+
+	public Inventario(String id) {
+		inventarioID = Integer.parseInt(id);
+		userID = Integer.parseInt(id);
+		ingredientes = new ArrayList<IngredienteEnInventario>();
+	}
 
 	public Inventario(String[] atributo) {
-		userID = Integer.parseInt(atributo[0]);
-		ingredienteID = Integer.parseInt(atributo[1]);
-		cantidad = Double.parseDouble(atributo[2]);
-		caducidad = LocalDateTime.parse(atributo[3].replace(' ', 'T'));
+		inventarioID = Integer.parseInt(atributo[0]);
+		userID = Integer.parseInt(atributo[1]);
+		ingredientes = new ArrayList<IngredienteEnInventario>();
+	}
+
+	public int getInventarioID() {
+		return inventarioID;
+	}
+
+	public void setInventarioID(int inventarioID) {
+		this.inventarioID = inventarioID;
 	}
 
 	public int getUserID() {
@@ -23,33 +41,25 @@ public class Inventario {
 		this.userID = userID;
 	}
 
-	public int getIngredienteID() {
-		return ingredienteID;
+	public ArrayList<IngredienteEnInventario> getIngredientes() {
+		return ingredientes;
 	}
 
-	public void setIngredienteID(int ingredienteID) {
-		this.ingredienteID = ingredienteID;
-	}
-
-	public double getCantidad() {
-		return cantidad;
-	}
-
-	public void setCantidad(double cantidad) {
-		this.cantidad = cantidad;
-	}
-
-	public LocalDateTime getCaducidad() {
-		return caducidad;
-	}
-
-	public void setCaducidad(LocalDateTime caducidad) {
-		this.caducidad = caducidad;
+	public void setIngrediente(IngredienteEnBBDD ing, String atributos) {
+		ingredientes.add(new IngredienteEnInventario(ing, atributos.split(";")));
 	}
 
 	public String toString() {
-		return "\n\nUserID: " + userID + "\nIngredienteID: " + ingredienteID + "\nCantidad: " + cantidad
-				+ "\nCaducidad: " + caducidad;
+		return inventarioID + "" + ingredientes + "\n";
+	}
+
+	public String[] toInsert() {
+		String insert = inventarioID + ";" + userID;
+		return insert.split(";");
+	}
+
+	public void removeIngrediente(int ingIndex) {
+		ingredientes.remove(ingIndex);
 	}
 
 }

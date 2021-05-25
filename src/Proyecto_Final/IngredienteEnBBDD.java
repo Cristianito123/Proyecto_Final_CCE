@@ -1,6 +1,6 @@
 package Proyecto_Final;
 
-public class Ingrediente {
+public class IngredienteEnBBDD {
 	private int id;
 	private String nombre;
 	private String medida;
@@ -10,7 +10,18 @@ public class Ingrediente {
 	private boolean vegetal;
 	private boolean proteina_animal;
 
-	public Ingrediente(String[] atributo) {
+	public IngredienteEnBBDD() {
+		id = 0;
+		nombre = "";
+		medida = "";
+		alergeno = false;
+		lactosa = false;
+		gluten = false;
+		vegetal = false;
+		proteina_animal = false;
+	}
+
+	public IngredienteEnBBDD(String[] atributo) {
 		id = Integer.parseInt(atributo[0]);
 		nombre = atributo[1];
 		medida = atributo[2];
@@ -105,11 +116,52 @@ public class Ingrediente {
 		this.proteina_animal = proteina_animal;
 	}
 
-	@Override
 	public String toString() {
-		return "\nIngrediente Nº: " + id + "\nNombre: " + nombre + "\nMedida: " + medida + "\nAlergeno: " + alergeno
-				+ "\nLactosa: " + lactosa + "\nGluten: " + gluten + "\nVegetal: " + vegetal + "\nProteina animal: "
+		return medida + "\n\tNombre: " + nombre + "\n\tIngredienteID: " + id + "\n\tAlergeno: " + alergeno
+				+ "\n\tLactosa: " + lactosa + "\n\tGluten: " + gluten + "\n\tVegetal: " + vegetal
+				+ "\n\tProteina animal: " + proteina_animal + "\n";
+	}
+
+	public String toArray() {
+		return id + ";" + nombre + ";" + medida + ";" + alergeno + ";" + lactosa + ";" + gluten + ";" + vegetal + ";"
 				+ proteina_animal;
 	}
 
+	public String[] toInsert() {
+		int aler = 0;
+		int lact = 0;
+		int glut = 0;
+		int vege = 0;
+		int prot = 0;
+
+		if (alergeno) {
+			aler = 1;
+		} else {
+			aler = 0;
+		}
+		if (lactosa) {
+			lact = 1;
+		} else {
+			lact = 0;
+		}
+		if (gluten) {
+			glut = 1;
+		} else {
+			glut = 0;
+		}
+		if (vegetal) {
+			vege = 1;
+		} else {
+			vege = 0;
+		}
+		if (proteina_animal) {
+			prot = 1;
+		} else {
+			prot = 0;
+		}
+
+		String insert = id + ";" + nombre + ";" + medida + ";" + aler + ";" + lact + ";" + glut + ";" + vege + ";"
+				+ prot;
+		return insert.split(";");
+	}
 }

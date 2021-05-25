@@ -1,26 +1,56 @@
 package Proyecto_Final;
 
 public class Usuario {
-	int id;
-	String username;
-	String nombre;
-	String apellidos;
-	String password;
+	private int userID;
+	private Filtro filtro;
+	private Inventario inventario;
+	private String username;
+	private String nombre;
+	private String apellidos;
+	private String password;
+
+	public Usuario() {
+		userID = 0;
+		filtro = new Filtro();
+		inventario = new Inventario();
+		username = "";
+		nombre = "";
+		apellidos = "";
+		password = "";
+	}
 
 	public Usuario(String[] atributo) {
-		id = Integer.parseInt(atributo[0]);
+		userID = Integer.parseInt(atributo[0]);
+		filtro = new Filtro(atributo[0]);
+		inventario = new Inventario(atributo[0]);
 		username = atributo[1];
 		nombre = atributo[3];
 		apellidos = atributo[4];
 		password = atributo[2];
 	}
 
-	public int getId() {
-		return id;
+	public int getUserID() {
+		return userID;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserID(int id) {
+		this.userID = id;
+	}
+
+	public Filtro getFiltro() {
+		return filtro;
+	}
+
+	public void setFiltro(String[] atributos) {
+		filtro = new Filtro(atributos);
+	}
+
+	public Inventario getInventario() {
+		return inventario;
+	}
+
+	public void setInventario(String atributos) {
+		inventario = new Inventario(atributos.split(";"));
 	}
 
 	public String getUsername() {
@@ -56,6 +86,12 @@ public class Usuario {
 	}
 
 	public String toString() {
-		return "\nid: " + id + "\nUsername: " + username + "\nNombre: " + nombre + "\nApellidos: " + apellidos;
+		return "\nUsername: " + username + "\nNombre: " + nombre + "\nApellidos: " + apellidos + "\nUserID: " + userID
+				+ "\nPreferencias: " + filtro + "\nInventarioID: " + inventario + "\n";
+	}
+
+	public String[] toInsert() {
+		String insert = userID + ";" + username + ";" + password + ";" + nombre + ";" + apellidos;
+		return insert.split(";");
 	}
 }

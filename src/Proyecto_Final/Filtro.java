@@ -1,15 +1,39 @@
 package Proyecto_Final;
 
 public class Filtro {
-	int userID;
-	boolean vegetariano;
-	boolean vegano;
-	boolean alergico;
-	boolean intolerante_lactosa;
-	boolean intolerante_gluten;
-	boolean buscar_salado;
-	boolean buscar_dulce;
-	boolean buscar_picante;
+	private int userID;
+	private boolean vegetariano;
+	private boolean vegano;
+	private boolean alergico;
+	private boolean intolerante_lactosa;
+	private boolean intolerante_gluten;
+	private boolean buscar_salado;
+	private boolean buscar_dulce;
+	private boolean buscar_picante;
+
+	public Filtro() {
+		userID = 0;
+		vegetariano = false;
+		vegano = false;
+		alergico = false;
+		intolerante_lactosa = false;
+		intolerante_gluten = false;
+		buscar_salado = false;
+		buscar_dulce = false;
+		buscar_picante = false;
+	}
+
+	public Filtro(String id) {
+		userID = Integer.parseInt(id);
+		vegetariano = false;
+		vegano = false;
+		alergico = false;
+		intolerante_lactosa = false;
+		intolerante_gluten = false;
+		buscar_salado = false;
+		buscar_dulce = false;
+		buscar_picante = false;
+	}
 
 	public Filtro(String[] atributo) {
 		userID = Integer.parseInt(atributo[0]);
@@ -129,9 +153,66 @@ public class Filtro {
 
 	@Override
 	public String toString() {
-		return "\n\nuserID: " + userID + "\nvegetariano: " + vegetariano + "\nvegano: " + vegano + "\nalergico: "
-				+ alergico + "\nintolerante_lactosa: " + intolerante_lactosa + "\nintolerante_gluten: "
-				+ intolerante_gluten + "\nbuscar_salado: " + buscar_salado + "\nbuscar_dulce: " + buscar_dulce
-				+ "\nbuscar_picante: " + buscar_picante;
+		return "\n\tvegetariano: " + vegetariano + "\n\tvegano: " + vegano + "\n\talergico: " + alergico
+				+ "\n\tintolerante_lactosa: " + intolerante_lactosa + "\n\tintolerante_gluten: " + intolerante_gluten
+				+ "\n\tbuscar_salado: " + buscar_salado + "\n\tbuscar_dulce: " + buscar_dulce + "\n\tbuscar_picante: "
+				+ buscar_picante + "\n\tFiltro_userid_" + userID + "\n";
 	}
+
+	public String[] toInsert() {
+		int vege = 0;
+		int vega = 0;
+		int aler = 0;
+		int int_lac = 0;
+		int int_glu = 0;
+		int buscar_s = 0;
+		int buscar_d = 0;
+		int buscar_p = 0;
+
+		if (vegetariano) {
+			vege = 1;
+		} else {
+			vege = 0;
+		}
+		if (vegano) {
+			vega = 1;
+		} else {
+			vega = 0;
+		}
+		if (alergico) {
+			aler = 1;
+		} else {
+			aler = 0;
+		}
+		if (intolerante_lactosa) {
+			int_lac = 1;
+		} else {
+			int_lac = 0;
+		}
+		if (intolerante_gluten) {
+			int_glu = 1;
+		} else {
+			int_glu = 0;
+		}
+		if (buscar_salado) {
+			buscar_s = 1;
+		} else {
+			buscar_s = 0;
+		}
+		if (buscar_dulce) {
+			buscar_d = 1;
+		} else {
+			buscar_d = 0;
+		}
+		if (buscar_picante) {
+			buscar_p = 1;
+		} else {
+			buscar_p = 0;
+		}
+
+		String insert = userID + ";" + vege + ";" + vega + ";" + aler + ";" + int_lac + ";" + int_glu + ";" + buscar_s
+				+ ";" + buscar_d + ";" + buscar_p;
+		return insert.split(";");
+	}
+
 }
