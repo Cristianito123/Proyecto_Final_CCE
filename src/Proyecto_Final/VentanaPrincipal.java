@@ -103,7 +103,6 @@ public class VentanaPrincipal extends JFrame {
 		panelRecetas.setLayout(null);
 
 		mostrarListaIngredientes();
-//		mostratListaRecetas();
 
 		contentPaneMenu.add(panelMenu);
 		contentPaneMain.add(scrollPaneInventario);
