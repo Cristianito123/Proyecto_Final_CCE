@@ -19,6 +19,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JProgressBar;
 import java.awt.event.KeyAdapter;
@@ -65,7 +66,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 			}
 		});
 		username.setMargin(new Insets(-3, 2, 2, 2));
-		username.setBounds(150, 86, 100, 19);
+		username.setBounds(150, 97, 100, 19);
 		username.setText("");
 		username.setColumns(10);
 		panLogin.add(username);
@@ -86,62 +87,63 @@ public class VentanaLogin extends JFrame implements ActionListener {
 		});
 		password.setMargin(new Insets(-3, 0, 0, 0));
 		password.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		password.setBounds(150, 116, 100, 19);
+		password.setBounds(150, 127, 100, 19);
 		password.setColumns(10);
 		panLogin.add(password);
 
 		btnLogin = new JButton("LOGIN");
-		btnLogin.setBounds(150, 146, 100, 21);
+		btnLogin.setBounds(150, 157, 100, 21);
 		btnLogin.setFocusable(false);
 		btnLogin.addActionListener(this);
 		btnLogin.setVisible(false);
 		panLogin.add(btnLogin);
 
 		btnRegister = new JButton("REGISTRATE");
-		btnRegister.setBounds(140, 217, 120, 21);
+		btnRegister.setBounds(140, 228, 120, 21);
 		btnRegister.setFocusable(false);
 		btnRegister.addActionListener(this);
 		btnRegister.setVisible(false);
 		panLogin.add(btnRegister);
 
 		lblUsername = new JLabel("Usuario:");
-		lblUsername.setBounds(70, 89, 70, 13);
+		lblUsername.setBounds(70, 100, 70, 13);
 		panLogin.add(lblUsername);
 
 		lblPassword = new JLabel("Contrase\u00F1a:");
-		lblPassword.setBounds(70, 119, 80, 13);
+		lblPassword.setBounds(70, 130, 80, 13);
 		panLogin.add(lblPassword);
 
 		lblRegister = new JLabel("\u00BFEres nuevo?");
 		lblRegister.setHorizontalAlignment(SwingConstants.CENTER);
-		lblRegister.setBounds(140, 194, 120, 15);
+		lblRegister.setBounds(140, 205, 120, 15);
 		lblRegister.setVisible(false);
 		panLogin.add(lblRegister);
 
+		ImageIcon image = new ImageIcon("src/banner.png");
 		banner = new JLabel("");
-		banner.setIcon(new ImageIcon("src/banner.png"));
+		banner.setIcon(new ImageIcon(image.getImage().getScaledInstance(330, 84, Image.SCALE_SMOOTH)));
 		banner.setFont(new Font("Tahoma", Font.PLAIN, 60));
 		banner.setHorizontalAlignment(SwingConstants.CENTER);
-		banner.setBounds(25, 10, 350, 50);
+		banner.setBounds(35, 0, 330, 84);
 		panLogin.add(banner);
 
 		hiddenUsername = new JLabel("Usuario no existe");
 		hiddenUsername.setVisible(false);
 		hiddenUsername.setForeground(Color.RED);
-		hiddenUsername.setBounds(255, 89, 140, 13);
+		hiddenUsername.setBounds(255, 100, 140, 13);
 		panLogin.add(hiddenUsername);
 
 		hidenInvalidPass = new JLabel("Contrase\u00F1a invalida");
 		hidenInvalidPass.setVisible(false);
 		hidenInvalidPass.setForeground(Color.RED);
-		hidenInvalidPass.setBounds(265, 119, 140, 13);
+		hidenInvalidPass.setBounds(265, 130, 140, 13);
 		panLogin.add(hidenInvalidPass);
 
 		hidenForgotPass = new JLabel("\u00BFHas olvidado la contrase\u00F1a?");
 		hidenForgotPass.setVisible(false);
 		hidenForgotPass.setForeground(Color.RED);
 		hidenForgotPass.setHorizontalAlignment(SwingConstants.CENTER);
-		hidenForgotPass.setBounds(100, 173, 200, 15);
+		hidenForgotPass.setBounds(100, 184, 200, 15);
 		panLogin.add(hidenForgotPass);
 
 		lblpassHint = new JLabel("\uD83D\uDC41");
@@ -159,7 +161,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 			}
 		});
 		lblpassHint.setFont(UIManager.getFont("ColorChooser.font"));
-		lblpassHint.setBounds(250, 118, 13, 13);
+		lblpassHint.setBounds(250, 129, 13, 13);
 		panLogin.add(lblpassHint);
 
 		progressBar = new JProgressBar();
@@ -184,6 +186,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 					System.out.println("user ok, abriendo ventana main");
 					VentanaPrincipal main = new VentanaPrincipal(this, control, username.getText());
 					main.setLocationRelativeTo(null);
+					main.setIconImage(this.getIconImage());
 					main.setMinimumSize(new Dimension(1480, 800));
 					main.setExtendedState(JFrame.MAXIMIZED_BOTH);
 					dispose();

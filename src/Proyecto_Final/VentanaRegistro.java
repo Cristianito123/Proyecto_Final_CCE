@@ -287,6 +287,8 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 									control.insertBBDD("usuario");
 									VentanaPrincipal main = new VentanaPrincipal(login, control, username.getText());
 									main.setExtendedState(JFrame.MAXIMIZED_BOTH);
+									main.setIconImage(this.getIconImage());
+									main.toMenu();
 									success = true;
 									dispose();
 								} else {

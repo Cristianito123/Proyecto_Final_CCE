@@ -58,4 +58,8 @@ public class Inventario {
 		return insert.split(";");
 	}
 
+	public void removeIngrediente(int ingIndex) {
+		ingredientes.remove(ingIndex);
+	}
+
 }

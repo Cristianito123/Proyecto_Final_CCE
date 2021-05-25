@@ -33,7 +33,7 @@ public class VentanaPrincipal extends JFrame {
 	private ArrayList<JButton> preparar;
 	private ArrayList<JSeparator> separador;
 	private ArrayList<IngredienteEnInventario> ingredientesBuscar;
-	private ArrayList<IngredienteEnBBDD> ingredientesDispo;
+	private ArrayList<IngredienteEnInventario> ingredientesDispo;
 	private ArrayList<Receta> recetasMostrar;
 	private String logedUser;
 	private JButton btnSyso, btnVolver, btnMenu;
@@ -44,7 +44,7 @@ public class VentanaPrincipal extends JFrame {
 		control = controlador;
 		login = ventanaLogin;
 		System.out.println(username);
-		control.mostrarUsuarios();
+//		control.mostrarUsuarios();
 		setTitle("Filp & Cook  Bienvenido " + logedUser);
 		ingredientes = new ArrayList<JToggleButton>();
 		info = new ArrayList<JLabel>();
@@ -58,12 +58,12 @@ public class VentanaPrincipal extends JFrame {
 		separador = new ArrayList<JSeparator>();
 		recetasMostrar = new ArrayList<Receta>();
 		ingredientesBuscar = new ArrayList<IngredienteEnInventario>();
-		ingredientesDispo = new ArrayList<IngredienteEnBBDD>();
+		ingredientesDispo = new ArrayList<IngredienteEnInventario>();
 
-		contentPaneMain = new JPanel(); // TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA EJECUTAR! *MAIN**EJECUTAR*
+//		contentPaneMain = new JPanel(); // TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA EJECUTAR! *MAIN**EJECUTAR*
 		contentPaneMenu = new JPanel(); // TODO QUITAR PARA TRABAJAR EN EL MAIN Y PONER PARA EJECUTAR! *MENU**EJECUTAR*
-		setContentPane(contentPaneMain); // TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA EJECUTAR!*MAIN**EJECUTAR*
-//		setContentPane(contentPaneMenu); //TODO PONER PARA TRABAJAR EN EL MENU Y QUITAR PARA EJECUTAR! *MENU*
+//		setContentPane(contentPaneMain); // TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA EJECUTAR!*MAIN**EJECUTAR*
+		setContentPane(contentPaneMenu); // TODO PONER PARA TRABAJAR EN EL MENU Y QUITAR PARA EJECUTAR! *MENU*
 
 		contentPaneMain.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPaneMenu.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -81,6 +81,7 @@ public class VentanaPrincipal extends JFrame {
 		scrollPaneRecetas.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPaneRecetas.setBounds(273, 70, 983, 683); // TODO ajustar lamina
 		panelMenu = new JPanel();
+		panelMenu.setBackground(Color.WHITE);
 		panelMenu.setBounds(10, 10, 966, 555);
 
 		contentPaneMain.setLayout(null);
@@ -102,7 +103,7 @@ public class VentanaPrincipal extends JFrame {
 		panelRecetas.setLayout(null);
 
 		mostrarListaIngredientes();
-		mostratListaRecetas();
+//		mostratListaRecetas();
 
 		contentPaneMenu.add(panelMenu);
 		contentPaneMain.add(scrollPaneInventario);
@@ -140,6 +141,45 @@ public class VentanaPrincipal extends JFrame {
 		btnVolver.setFocusable(false);
 		panelMenu.add(btnVolver);
 
+		JPanel panelOpciones = new JPanel();
+		panelOpciones.setBounds(10, 31, 200, 514);
+		panelMenu.add(panelOpciones);
+		panelOpciones.setLayout(null);
+
+		JButton btnCerrarSesion = new JButton("Cerrar sesion");
+		btnCerrarSesion.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				// TODO VOLVER AL LOGIN
+			}
+		});
+		btnCerrarSesion.setBounds(25, 483, 150, 21);
+		panelOpciones.add(btnCerrarSesion);
+
+		JButton btnAgregarIngredientes = new JButton("Agregar ingredientes");
+		btnAgregarIngredientes.setBounds(25, 10, 150, 21);
+		panelOpciones.add(btnAgregarIngredientes);
+
+		JButton btnAgregarRecetas = new JButton("Agregar Recetas");
+		btnAgregarRecetas.setVisible(false);
+		btnAgregarRecetas.setBounds(25, 452, 150, 21);
+		panelOpciones.add(btnAgregarRecetas);
+
+		JButton btnAltaIngrediente = new JButton("Alta Ingredientes BBDD");
+		btnAltaIngrediente.setBounds(25, 421, 150, 21);
+		panelOpciones.add(btnAltaIngrediente);
+
+		JButton btnFiltros = new JButton("Ajustar preferencias");
+		btnFiltros.setBounds(25, 41, 150, 21);
+		panelOpciones.add(btnFiltros);
+
+		JLabel lblVolver = new JLabel("Volver");
+		lblVolver.setBounds(36, 4, 45, 13);
+		panelMenu.add(lblVolver);
+
+		JPanel panelOpIngredientes = new JPanel();
+		panelOpIngredientes.setBounds(220, 31, 496, 514);
+		panelMenu.add(panelOpIngredientes);
+
 		btnMenu = new JButton("Menu");
 		btnMenu.setFocusable(false);
 		btnMenu.addMouseListener(new MouseAdapter() {
@@ -160,12 +200,13 @@ public class VentanaPrincipal extends JFrame {
 		btnSyso.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				System.out.println("\n\n\nrecetasMostrar\n\n");
-				System.out.println(recetasMostrar.toString());
-				System.out.println("\n\n\ningredientesDispo\n\n");
-				System.out.println(ingredientesDispo.toString());
-				System.out.println("\n\n\ningredientesBuscar\n\n");
-				System.out.println(ingredientesBuscar.toString());
+//				System.out.println("\n\n\nrecetasMostrar\n\n");
+//				System.out.println(recetasMostrar.toString());
+//				System.out.println("\n\n\ningredientesDispo\n\n");
+//				System.out.println(ingredientesDispo.toString());
+//				System.out.println("\n\n\ningredientesBuscar\n\n");
+//				System.out.println(ingredientesBuscar.toString());
+				System.out.println(control.getListaIngEnInv(logedUser));
 
 			}
 		});
@@ -174,45 +215,52 @@ public class VentanaPrincipal extends JFrame {
 	}
 
 	private void mostrarListaIngredientes() {
+		panelIngredientes.removeAll();
+		info.removeAll(info);
+		ingredientes.removeAll(ingredientes);
+		ingredientesDispo.removeAll(ingredientesDispo);
+		ingredientesBuscar.removeAll(ingredientesBuscar);
+		panelIngredientes.repaint();
+
 		int indice = 0, alto = 10;
 		for (IngredienteEnInventario listaIng : control.getListaIngEnInv(logedUser)) {
-
-			ingredientesDispo.add(listaIng.getIngrediente());
-			ingredientes.add(new JToggleButton());
-			info.add(new JLabel());
-			ingredientes.get(indice).setBounds(10, alto, 115, 21);
-			ingredientes.get(indice).setText(listaIng.getIngrediente().getNombre());
-			ingredientes.get(indice).setFocusable(false);
-			ingredientes.get(indice).setName(indice + ";" + listaIng.getIngrediente().getId());
-			ingredientes.get(indice).addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					String[] name = e.getComponent().getName().split(";");
-					int pos = Integer.parseInt(name[0]);
-					int id = Integer.parseInt(name[1]);
-					if (ingredientes.get(pos).isSelected()) {
-						ingredientesBuscar.add(control.getListaIngEnInv(logedUser).get(id)); // TODO POSIBLE FALLO AL
-																								// POSCICIONAR EL
-																								// INGREDIENTE
-					} else {
-						ingredientesBuscar.remove(control.getListaIngEnInv(logedUser).get(id));
+			if (listaIng.getCantidad() > 0) {
+				ingredientesDispo.add(listaIng);
+				ingredientes.add(new JToggleButton());
+				info.add(new JLabel());
+				ingredientes.get(indice).setBounds(10, alto, 115, 21);
+				ingredientes.get(indice).setText(listaIng.getIngrediente().getNombre());
+				ingredientes.get(indice).setFocusable(false);
+				ingredientes.get(indice).setName(indice + ";" + listaIng.getIngrediente().getId());
+				ingredientes.get(indice).addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent e) {
+						String[] name = e.getComponent().getName().split(";");
+						int pos = Integer.parseInt(name[0]);
+//					int id = Integer.parseInt(name[1]); //TODO NO SE SI LO NECESITARE LUEGO
+						if (ingredientes.get(pos).isSelected()) {
+							ingredientesBuscar.add(control.getListaIngEnInv(logedUser).get(pos));
+						} else {
+							ingredientesBuscar.remove(control.getListaIngEnInv(logedUser).get(pos));
+						}
+						mostraListaRecetas();
 					}
-					mostratListaRecetas();
-				}
-			});
-			info.get(indice).setBounds(125, alto + 3, 140, 13);
-			info.get(indice)
-					.setText("Tienes: " + (int) listaIng.getCantidad() + listaIng.getIngrediente().getMedida() + ".");
-			panelIngredientes.add(info.get(indice));
-			panelIngredientes.add(ingredientes.get(indice));
-			panelIngredientes.setPreferredSize(new Dimension(250, alto + 30));
-			indice++;
-			alto += 30;
+				});
+				info.get(indice).setBounds(125, alto + 3, 140, 13);
+				info.get(indice).setText(
+						"Tienes: " + (int) listaIng.getCantidad() + listaIng.getIngrediente().getMedida() + ".");
+				panelIngredientes.add(info.get(indice));
+				panelIngredientes.add(ingredientes.get(indice));
+				panelIngredientes.setPreferredSize(new Dimension(250, alto + 30));
+				indice++;
+				alto += 30;
+				mostraListaRecetas();
+			}
 		}
 	}
 
 //	(bus.getIngredientes().containsAll(control.getUserList().get(control.getUserID(logedUser))))
 //	if (bus.getIngredientes().containsAll(control.getListaIngEnInv(logedUser)))
-	private void mostratListaRecetas() {
+	private void mostraListaRecetas() {
 		panelRecetas.removeAll();
 		nombreReceta.removeAll(nombreReceta);
 		descripcion.removeAll(descripcion);
@@ -232,9 +280,11 @@ public class VentanaPrincipal extends JFrame {
 				countIngDispo = 0;
 				for (IngredienteEnReceta ing : bus.getIngredientes()) {
 					countIngReceta++;
-					for (IngredienteEnBBDD disp : ingredientesDispo) {
-						if (ing.getIngrediente().getId() == disp.getId()) {
-							countIngDispo++;
+					for (IngredienteEnInventario disp : ingredientesDispo) {
+						if (ing.getIngrediente().getId() == disp.getIngrediente().getId()) {
+							if (disp.getCantidad() >= ing.getCantidad()) {
+								countIngDispo++;
+							}
 						}
 					}
 				}
@@ -250,7 +300,9 @@ public class VentanaPrincipal extends JFrame {
 					countIngReceta++;
 					for (IngredienteEnInventario disp : ingredientesBuscar) {
 						if (ing.getIngrediente().getId() == disp.getIngrediente().getId()) {
-							countIngDispo++;
+							if (disp.getCantidad() >= ing.getCantidad()) {
+								countIngDispo++;
+							}
 						}
 					}
 				}
@@ -318,14 +370,64 @@ public class VentanaPrincipal extends JFrame {
 					int pos = Integer.parseInt(name[0]);
 					int id = Integer.parseInt(name[1]);
 					System.out.println("Posicion de la receta en el array= " + pos + " id de la receta= " + id);
-
-					// TODO
-					// hacer bucles para restar ingredientes del inventario del usuario
-					// correspondientes a los usados en la receta
-
+					Receta receta = null;
+					for (Receta bus : recetasMostrar) {
+						if (bus.getRecetaID() == id) {
+							receta = bus;
+							System.out.println("\nvas vas a preparar la siguiente receta " + receta.getNombre());
+						}
+					}
+					int userIndex = 0, ingIndex = 0;
+					double cantidadInv = 0, cantidadRec = 0;
+					userIndex = 0;
+					for (Usuario user : control.getUserList()) {
+						System.out.println(user.getNombre());
+						if (user.getUsername().equalsIgnoreCase(logedUser)) {
+							System.out.println("if correcto, es " + user.getNombre());
+							ingIndex = 0;
+							control.conectarBBDD();
+							for (IngredienteEnInventario ingInv : user.getInventario().getIngredientes()) {
+								System.out.println("ingInv= " + ingInv.getIngrediente().getNombre());
+								for (IngredienteEnReceta ingRec : receta.getIngredientes()) {
+									System.out.println("ingRec= " + ingRec.getIngrediente().getNombre());
+									if (ingRec.getIngrediente().getId() == ingInv.getIngrediente().getId()) {
+										System.out.println("if correcto, es " + ingRec.getIngrediente().getNombre());
+										System.out.println("dispo en inv= " + ingInv.getCantidad());
+										System.out.println("necesarios= " + ingRec.getCantidad());
+										cantidadInv = ingInv.getCantidad();
+										cantidadRec = ingRec.getCantidad();
+										if (cantidadInv > cantidadRec) {
+											System.out.println("UPDATE QUERY");
+											control.getUserList().get(userIndex).getInventario().getIngredientes()
+													.get(ingIndex).setCantidad(cantidadInv - ingRec.getCantidad());
+											control.updateBBDD("ingEnInvUpdate",
+													cantidadInv - ingRec.getCantidad() + ";" + ingInv.getInventarioID()
+															+ ";" + ingInv.getIngrediente().getId());
+										} else {
+											System.out.println("DELETE FROM");
+											control.getUserList().get(userIndex).getInventario().getIngredientes()
+													.get(ingIndex).setCantidad(cantidadInv - ingRec.getCantidad());
+											control.updateBBDD("ingEnInvDelete",
+													ingInv.getInventarioID() + ";" + ingInv.getIngrediente().getId());
+										}
+//										else {
+//											System.out.println(
+//													"no dispones de suficiente" + ingInv.getIngrediente().getNombre());
+//											// TODO NOTIFICAR CON UN PANEL? o quitar el if cantidad pq ya lo solvente con la misma condicion pero para mostrar unicamente las recetas que cumplen este mismo if?
+//										}
+										break;
+									}
+								}
+								ingIndex++;
+							}
+							// TODO INSERT INTO PREPARAR (userID, recetaID) VALUES (?,?)
+							control.desconectarBBDD();
+							break;
+						}
+						userIndex++;
+					}
 					mostrarListaIngredientes();
 				}
-
 			});
 			panelRecetas.add(preparar.get(indice));
 			alto += 26;
@@ -338,5 +440,11 @@ public class VentanaPrincipal extends JFrame {
 			panelRecetas.setPreferredSize(new Dimension(700, alto));
 			indice++;
 		}
+	}
+
+	public void toMenu() {
+		contentPaneMain.setVisible(false);
+		contentPaneMenu.setVisible(true);
+		setContentPane(contentPaneMenu);
 	}
 }
