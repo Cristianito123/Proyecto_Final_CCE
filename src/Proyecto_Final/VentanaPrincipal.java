@@ -148,6 +148,7 @@ public class VentanaPrincipal extends JFrame {
 		JButton btnCerrarSesion = new JButton("Cerrar sesion");
 		btnCerrarSesion.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
+				login.setVisible(true);
 				// TODO VOLVER AL LOGIN
 			}
 		});
