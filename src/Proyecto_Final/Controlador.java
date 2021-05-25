@@ -1,6 +1,8 @@
 package Proyecto_Final;
 
 import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -20,6 +22,8 @@ public class Controlador {
 	private ArrayList<ImageIcon> listaImagenesRecetas;
 	private VentanaLogin login;
 	private Utiles util = new Utiles();
+	private String[] c= new String[3];
+	BufferedReader br;
 
 	public Controlador() {
 		login = new VentanaLogin(this);
@@ -33,11 +37,15 @@ public class Controlador {
 		ResultSet rs = null;
 
 		try {
-
+			br = new BufferedReader(new FileReader("src/file.txt"));
+			while (br.ready()) {
+				c = br.readLine().split(";");
+			}
+			br.close();
 			login.setProgBar(1);
 			System.out.println("Estableciendo conexion con la base de datos"); // TODO BORRAR
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://34.91.89.112:3306/PF_CCE", "zther", "zther");
+			conn = DriverManager.getConnection(c[0],c[1],c[2]);
 			stmt = conn.createStatement();
 			System.out.println("conexion ok"); // TODO BORRAR
 			login.setProgBar(5);
