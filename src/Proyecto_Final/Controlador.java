@@ -72,9 +72,9 @@ public class Controlador {
 			if (stmt != null) {
 				stmt.close();
 			}
-//			if (conn!=null) {
-			conn.close();
-//			}
+			if (conn != null) {
+				conn.close();
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -244,8 +244,6 @@ public class Controlador {
 
 	public void insertBBDD(String orden) {
 		try {
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//			conn = DriverManager.getConnection(c[0],c[1],c[2]);
 			stmt = conn.createStatement();
 //"INSERT IGNORE INTO ? VALUES (?)"
 			switch (orden) {
@@ -264,30 +262,21 @@ public class Controlador {
 					String[] usuario = user.toInsert();
 					stmt.executeUpdate("INSERT IGNORE INTO usuario VALUES (" + usuario[0] + ",'" + usuario[1] + "','"
 							+ usuario[2] + "','" + usuario[3] + "','" + usuario[4] + "')");
-//					pstmt.setString(2, usuario[0] + "','" + usuario[1] + "','" + usuario[2] + "','" + usuario[3] + "','"
-//							+ usuario[4]);
-//					pstmt.executeUpdate();
 
 					String[] filtro = user.getFiltro().toInsert();
-//					pstmt.setString(1, "filtro");
 					stmt.executeUpdate("INSERT IGNORE INTO filtro VALUES (" + filtro[0] + "," + filtro[1] + ","
 							+ filtro[2] + "," + filtro[3] + "," + filtro[4] + "," + filtro[5] + "," + filtro[6] + ","
 							+ filtro[7] + "," + filtro[8] + ")");
-//					pstmt.executeUpdate();
 
 					String[] inventario = user.getInventario().toInsert();
-//					pstmt.setString(1, "Inventario");
 					stmt.executeUpdate(
 							"INSERT IGNORE INTO Inventario VALUES (" + inventario[0] + "," + inventario[1] + ")");
-//					pstmt.executeUpdate();
 
 					ArrayList<IngredienteEnInventario> ingredientes = user.getInventario().getIngredientes();
 					for (IngredienteEnInventario ingrediente : ingredientes) {
 						String[] ing = ingrediente.toInsert();
-//						pstmt.setString(1, "IngredientesEnInventario");
 						stmt.executeUpdate("INSERT IGNORE INTO IngredientesEnInventario VALUES (" + ing[0] + ","
 								+ ing[1] + "," + ing[2] + ",'" + ing[3] + "')");
-//						pstmt.executeUpdate();
 					}
 				}
 				break;
@@ -322,8 +311,6 @@ public class Controlador {
 		String[] parametro = parametros.split(";");
 
 		try {
-//			Class.forName("com.mysql.cj.jdbc.Driver");
-//			conn = DriverManager.getConnection(c[0],c[1],c[2]);
 
 //"INSERT IGNORE INTO ? VALUES (?)"
 			switch (orden) {
@@ -344,39 +331,27 @@ public class Controlador {
 					String[] usuario = user.toInsert();
 					pstmt.executeUpdate("INSERT IGNORE INTO usuario VALUES (" + usuario[0] + ",'" + usuario[1] + "','"
 							+ usuario[2] + "','" + usuario[3] + "','" + usuario[4] + "')");
-//					pstmt.setString(2, usuario[0] + "','" + usuario[1] + "','" + usuario[2] + "','" + usuario[3] + "','"
-//							+ usuario[4]);
-//					pstmt.executeUpdate();
 
 					String[] filtro = user.getFiltro().toInsert();
-//					pstmt.setString(1, "filtro");
 					pstmt.executeUpdate("INSERT IGNORE INTO filtro VALUES (" + filtro[0] + "," + filtro[1] + ","
 							+ filtro[2] + "," + filtro[3] + "," + filtro[4] + "," + filtro[5] + "," + filtro[6] + ","
 							+ filtro[7] + "," + filtro[8] + ")");
-//					pstmt.executeUpdate();
 
 					String[] inventario = user.getInventario().toInsert();
-//					pstmt.setString(1, "Inventario");
 					pstmt.executeUpdate(
 							"INSERT IGNORE INTO Inventario VALUES (" + inventario[0] + "," + inventario[1] + ")");
-//					pstmt.executeUpdate();
 
 					ArrayList<IngredienteEnInventario> ingredientes = user.getInventario().getIngredientes();
 					for (IngredienteEnInventario ingrediente : ingredientes) {
 						String[] ing = ingrediente.toInsert();
-//						pstmt.setString(1, "IngredientesEnInventario");
 						pstmt.executeUpdate("INSERT IGNORE INTO IngredientesEnInventario VALUES (" + ing[0] + ","
 								+ ing[1] + "," + ing[2] + ",'" + ing[3] + "')");
-//						pstmt.executeUpdate();
 					}
 				}
 				break;
 			case "ingEnInvUpdate":
 				pstmt = conn.prepareStatement(
 						"UPDATE IngredientesEnInventario SET cantidad = ? WHERE inventarioID = ? AND ingredienteID = ?");
-//				for (IngredienteEnInventario ing:listaUsuarios.get(Integer.parseInt(parametro[0])).getInventario().getIngredientes()) {
-//					
-//				}
 				pstmt.setString(1, parametro[0]);
 				pstmt.setString(2, parametro[1]);
 				pstmt.setString(3, parametro[2]);
@@ -385,9 +360,6 @@ public class Controlador {
 			case "ingEnInvDelete":
 				pstmt = conn.prepareStatement(
 						"DELETE FROM IngredientesEnInventario WHERE inventarioID = ? AND ingredienteID = ?");
-//				for (IngredienteEnInventario ing:listaUsuarios.get(Integer.parseInt(parametro[0])).getInventario().getIngredientes()) {
-//					
-//				}
 				pstmt.setString(1, parametro[0]);
 				pstmt.setString(2, parametro[1]);
 				pstmt.executeUpdate();
@@ -433,7 +405,6 @@ public class Controlador {
 	}
 
 	private void cargarImagenes() throws IOException {
-//		login.setProgBar(0);
 		int count = 50 / (listaRecetas.size());
 		int progreso = 50;
 		for (Receta bus : listaRecetas) {
@@ -466,8 +437,4 @@ public class Controlador {
 		return userID;
 	}
 
-	public void updateIngCant(double d, int inventarioID, int id) {
-		// TODO Auto-generated method stub
-
-	}
 }
