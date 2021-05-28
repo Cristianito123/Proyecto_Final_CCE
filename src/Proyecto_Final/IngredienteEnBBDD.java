@@ -126,6 +126,10 @@ public class IngredienteEnBBDD {
 		return id + ";" + nombre + ";" + medida + ";" + alergeno + ";" + lactosa + ";" + gluten + ";" + vegetal + ";"
 				+ proteina_animal;
 	}
+	
+	public String toName() {
+		return nombre;
+	}
 
 	public String[] toInsert() {
 		int aler = 0;

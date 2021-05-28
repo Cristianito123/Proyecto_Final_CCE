@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -185,10 +186,9 @@ public class VentanaLogin extends JFrame implements ActionListener {
 				if (control.chekPass(password.getPassword(), username.getText())) {
 					System.out.println("user ok, abriendo ventana main");
 					VentanaPrincipal main = new VentanaPrincipal(this, control, username.getText());
-					main.setLocationRelativeTo(null);
 					main.setIconImage(this.getIconImage());
-					main.setMinimumSize(new Dimension(1480, 800));
-					main.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					main.setLocationRelativeTo(null);
+					main.setBounds(115, 30, 1280, 800);
 					dispose();
 				} else {
 					System.out.println("pass invalido");

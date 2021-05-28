@@ -281,15 +281,17 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 							if (!control.checkUser(username.getText())) {
 								if (util.getPass(password.getPassword())
 										.equalsIgnoreCase(util.getPass(passwordVerif.getPassword()))) {
-									System.out.println("coinciden");
+									control.conectarBBDD();
 									control.userAdd(username.getText(), nombre.getText(), apellidos.getText(),
 											util.getPass(password.getPassword()));
 									control.insertBBDD("usuario");
 									VentanaPrincipal main = new VentanaPrincipal(login, control, username.getText());
-									main.setExtendedState(JFrame.MAXIMIZED_BOTH);
 									main.setIconImage(this.getIconImage());
+									main.setLocationRelativeTo(null);
+									main.setBounds(115, 30, 1280, 800);
 									main.toMenu();
 									success = true;
+									control.desconectarBBDD();
 									dispose();
 								} else {
 									System.out.println("no coinciden");
