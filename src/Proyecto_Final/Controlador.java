@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 
 public class Controlador {
@@ -349,20 +350,83 @@ public class Controlador {
 					}
 				}
 				break;
-			case "ingEnInvUpdate":
+//			case "ingEnInvUpdate":
+//				pstmt = conn.prepareStatement(
+//						"UPDATE IngredientesEnInventario SET cantidad = ? WHERE inventarioID = ? AND ingredienteID = ?");
+//				pstmt.setString(1, parametro[0]);
+//				pstmt.setString(2, parametro[1]);
+//				pstmt.setString(3, parametro[2]);
+//				pstmt.executeUpdate();
+//				break;
+//			case "ingEnInvDelete":
+//				pstmt = conn.prepareStatement(
+//						"DELETE FROM IngredientesEnInventario WHERE inventarioID = ? AND ingredienteID = ?");
+//				pstmt.setString(1, parametro[0]);
+//				pstmt.setString(2, parametro[1]);
+//				pstmt.executeUpdate();
+//				break;
+			case "preparar": // ahora este activa un trigger en la BBDD que hace lo mismo de arriba
+				pstmt = conn.prepareStatement("INSERT INTO preparar (userID, recetaID) VALUES (?,?)");
+				pstmt.setString(1, parametro[0]);
+				pstmt.setString(2, parametro[1]);
+				pstmt.executeUpdate();
+				System.out.println(pstmt);
+				System.out.println("update ok");
+				break;
+
+			case "vegetariano": // ejecutar al momento de volver atras
+				pstmt = conn.prepareStatement("UPDATE filtro SET vegetariano = ? WHERE userID = ?");
+				pstmt.setString(1, parametro[0]);
+				pstmt.setString(2, parametro[1]);
+				pstmt.executeUpdate();
+				System.out.println(pstmt);
+				System.out.println("update ok");
+				break;
+			case "vegano":
+				pstmt = conn.prepareStatement("UPDATE filtro SET vegano = ? WHERE userID = ?");
+				pstmt.setString(1, parametro[0]);
+				pstmt.setString(2, parametro[1]);
+				pstmt.executeUpdate();
+				System.out.println(pstmt);
+				System.out.println("update ok");
+				break;
+			case "alergico":
+				pstmt = conn.prepareStatement("UPDATE filtro SET alergico = ? WHERE userID = ?");
+				pstmt.setString(1, parametro[0]);
+				pstmt.setString(2, parametro[1]);
+				pstmt.executeUpdate();
+				System.out.println(pstmt);
+				System.out.println("update ok");
+				break;
+			case "lactosa":
+				pstmt = conn.prepareStatement("UPDATE filtro SET intolerante_lactosa = ? WHERE userID = ?");
+				pstmt.setString(1, parametro[0]);
+				pstmt.setString(2, parametro[1]);
+				pstmt.executeUpdate();
+				System.out.println(pstmt);
+				System.out.println("update ok");
+				break;
+			case "gluten":
+				pstmt = conn.prepareStatement("UPDATE filtro SET intolerante_gluten = ? WHERE userID = ?");
+				pstmt.setString(1, parametro[0]);
+				pstmt.setString(2, parametro[1]);
+				pstmt.executeUpdate();
+				System.out.println(pstmt);
+				System.out.println("update ok");
+				break;
+
+			case "addIngInv":
 				pstmt = conn.prepareStatement(
-						"UPDATE IngredientesEnInventario SET cantidad = ? WHERE inventarioID = ? AND ingredienteID = ?");
+						"INSERT INTO IngredientesEnInventario (inventarioID, ingredienteID, cantidad, caducidad) VALUES (?,?,?,?) ON DUPLICATE KEY UPDATE cantidad = cantidad+?, caducidad =?");
 				pstmt.setString(1, parametro[0]);
 				pstmt.setString(2, parametro[1]);
 				pstmt.setString(3, parametro[2]);
+				pstmt.setString(4, parametro[3]);
+				pstmt.setString(5, parametro[2]);
+				pstmt.setString(6, parametro[3]);
 				pstmt.executeUpdate();
-				break;
-			case "ingEnInvDelete":
-				pstmt = conn.prepareStatement(
-						"DELETE FROM IngredientesEnInventario WHERE inventarioID = ? AND ingredienteID = ?");
-				pstmt.setString(1, parametro[0]);
-				pstmt.setString(2, parametro[1]);
-				pstmt.executeUpdate();
+				System.out.println(pstmt);
+				System.out.println("update ok");
 				break;
 
 //				INSERT INTO IngredientesEnInventario (inventarioID, ingredienteID, cantidad, caducidad) VALUES (?,?,?,?) ON DUPLICATE KEY 
@@ -435,6 +499,47 @@ public class Controlador {
 			}
 		}
 		return userID;
+	}
+
+	public Usuario getUser(String username) {
+		Usuario us = null;
+		for (Usuario bus : listaUsuarios) {
+			if (bus.getUsername().equalsIgnoreCase(username)) {
+				us = bus;
+			}
+		}
+		return us;
+	}
+
+	public int getUserIndex(String username) {
+		int index = 0;
+		for (Usuario bus : listaUsuarios) {
+			if (bus.getUsername().equalsIgnoreCase(username)) {
+
+				break;
+			}
+			index++;
+		}
+		return index;
+	}
+
+	public Object[] getIngredientesBBDD() {
+		ArrayList<String> nombres = new ArrayList<String>();
+		for (IngredienteEnBBDD bus : listaIngredientes) {
+			nombres.add(bus.getNombre());
+		}
+		return nombres.toArray();
+	}
+
+	public IngredienteEnBBDD getIngrediente(String string) {
+		IngredienteEnBBDD ing = null;
+		for (IngredienteEnBBDD bus : listaIngredientes) {
+			if (bus.getNombre().equalsIgnoreCase(string)) {
+				ing = bus;
+			}
+		}
+		System.out.println(ing);// TODO BORRAR
+		return ing;
 	}
 
 }
