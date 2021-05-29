@@ -53,11 +53,15 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	private JToggleButton tglbtnVegetariano, tglbtnVegano, tglbtnAlergico, tglbtnLactosa, tglbtnGluten;
 	private JLabel lblIngEnInv, lblRecetasDispo, lblRecetasDispo2, lblVolver, lblVegetariano, lblVegano, lblAlergico,
 			lblLactosa, lblGluten, lblNewLabel_1, lblNewLabel_2, lblFechaInvalida, lblCantidadInvalida, lblIngExito,
-			lblLogoApp, lblLogoCeinmark, lblMedida;
+			lblLogoApp, lblLogoCeinmark, lblMedida, lblNewLabel_3;
 	private JPanel contentPaneMain, contentPaneMenu, panelIngredientes, panelRecetas, panelMenu, panelOpciones,
-			panelFiltros, panelOpIngredientes, panelOpPreferencias, panelOpAltaIngrediente, panelOpAltaReceta;
+			panelFiltros, panelOpIngredientes, panelOpPreferencias, panelOpAltaIngrediente, panelOpAltaReceta, panelBienvenida;
 	private JButton btnSyso, btnVolver, btnMenu, btnFiltros, btnAltaIngrediente, btnAgregarRecetas,
 			btnAgregarIngredientes, btnCerrarSesion;
+	private JLabel lblNewLabel_4;
+	private JLabel lblNewLabel_5;
+	private JLabel lblNewLabel_6;
+	private JLabel lblNewLabel_7;
 	
 	public VentanaPrincipal(VentanaLogin ventanaLogin, Controlador controlador, String username) {
 		setBackground(Color.WHITE);
@@ -125,15 +129,15 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		scrollPaneInventario = new JScrollPane();
 		scrollPaneInventario.getVerticalScrollBar().setUnitIncrement(10);
 		scrollPaneInventario.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPaneInventario.setBounds(10, 70, 250, 400);
+		scrollPaneInventario.setBounds(10, 52, 250, 400);
 		scrollPaneRecetas = new JScrollPane();
 		scrollPaneRecetas.getVerticalScrollBar().setUnitIncrement(10);
 		scrollPaneRecetas.setBackground(Color.WHITE);
 		scrollPaneRecetas.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPaneRecetas.setBounds(273, 70, 983, 683);
+		scrollPaneRecetas.setBounds(273, 52, 983, 683);
 		panelMenu = new JPanel(); // TODO QUITAR PARA TRABAJAR EN EL MAIN Y PONER PARA EJECUTAR!**
 		panelMenu.setBackground(Color.WHITE);
-		panelMenu.setBounds(10, 10, 1246, 743);
+		panelMenu.setBounds(0, 0, 1276, 753);
 
 		contentPaneMain.setLayout(null);
 		contentPaneMenu.setLayout(null);
@@ -159,26 +163,26 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
 		btnSyso = new JButton("syso");
 		btnSyso.setFocusable(false);
-		btnSyso.setBounds(10, 10, 85, 21);
+		btnSyso.setBounds(10, 740, 85, 21);
 		btnSyso.addActionListener(this);
 		btnSyso.setVisible(false); // TODO
 		contentPaneMain.add(btnSyso);
 
 		lblIngEnInv = new JLabel("Ingredientes en tu inventario");
 		lblIngEnInv.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblIngEnInv.setBounds(10, 30, 250, 30);
+		lblIngEnInv.setBounds(10, 12, 250, 30);
 		contentPaneMain.add(lblIngEnInv);
 
 		lblRecetasDispo = new JLabel("Recetas disponibles con todos los ingredientes de tu inventario");
 		lblRecetasDispo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRecetasDispo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblRecetasDispo.setBounds(273, 30, 983, 30);
+		lblRecetasDispo.setBounds(273, 12, 983, 30);
 		contentPaneMain.add(lblRecetasDispo);
 
 		lblRecetasDispo2 = new JLabel("Recetas disponibles con los ingredientes seleccionados");
 		lblRecetasDispo2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRecetasDispo2.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblRecetasDispo2.setBounds(273, 30, 983, 30);
+		lblRecetasDispo2.setBounds(273, 12, 983, 30);
 		lblRecetasDispo2.setVisible(false);
 		contentPaneMain.add(lblRecetasDispo2);
 
@@ -186,9 +190,45 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
 		btnVolver = new JButton("<<");
 		btnVolver.addActionListener(this);
+		
+		panelBienvenida = new JPanel();
+		panelBienvenida.setBackground(Color.WHITE);
+		panelBienvenida.setBorder(new LineBorder(Color.BLACK));
+		panelBienvenida.setVisible(false);
+		panelBienvenida.setBounds(273, 52, 983, 683);
+		panelMenu.add(panelBienvenida);
+		panelBienvenida.setLayout(null);
+		
+		lblNewLabel_4 = new JLabel("Bienvenido a Flip & Cook");
+		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_4.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel_4.setBounds(0, 0, 983, 30);
+		panelBienvenida.add(lblNewLabel_4);
+		
+		lblNewLabel_5 = new JLabel("Puedes empezar agregando ingreidientes a tu inventario ");
+		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_5.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_5.setBounds(0, 50, 983, 30);
+		panelBienvenida.add(lblNewLabel_5);
+		
+		lblNewLabel_6 = new JLabel("Luego ajustar tus preferencias alimentarias");
+		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_6.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_6.setBounds(0, 80, 983, 30);
+		panelBienvenida.add(lblNewLabel_6);
+		
+		lblNewLabel_7 = new JLabel("Cuando estes listo puedes darle al boton de volver para empezar a Flipar y Cocinar ;)");
+		lblNewLabel_7.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_7.setBounds(0, 110, 983, 30);
+		panelBienvenida.add(lblNewLabel_7);
 		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnVolver.setHorizontalAlignment(SwingConstants.LEFT);
-		btnVolver.setBounds(0, 0, 32, 21);
+		btnVolver.setBounds(10, 10, 32, 21);
 		btnVolver.setMargin(new Insets(0, 0, 4, 0));
 		btnVolver.setFocusable(false);
 		panelMenu.add(btnVolver);
@@ -196,7 +236,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		panelOpciones = new JPanel();
 		panelOpciones.setBorder(new LineBorder(Color.BLACK));
 		panelOpciones.setBackground(Color.WHITE);
-		panelOpciones.setBounds(10, 31, 250, 702);
+		panelOpciones.setBounds(10, 52, 250, 683);
 		panelMenu.add(panelOpciones);
 		panelOpciones.setLayout(null);
 
@@ -243,13 +283,13 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		panelOpciones.add(lblNewLabel);
 
 		lblVolver = new JLabel("Volver");
-		lblVolver.setBounds(36, 4, 45, 13);
+		lblVolver.setBounds(45, 14, 45, 13);
 		panelMenu.add(lblVolver);
 
 		panelOpIngredientes = new JPanel();
 		panelOpIngredientes.setBorder(new LineBorder(Color.BLACK));
 		panelOpIngredientes.setBackground(Color.WHITE);
-		panelOpIngredientes.setBounds(270, 31, 966, 702);
+		panelOpIngredientes.setBounds(273, 52, 983, 683);
 		panelOpIngredientes.setVisible(false);
 		panelMenu.add(panelOpIngredientes);
 		panelOpIngredientes.setLayout(null);
@@ -403,7 +443,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		panelOpPreferencias = new JPanel();
 		panelOpPreferencias.setBorder(new LineBorder(Color.BLACK));
 		panelOpPreferencias.setBackground(Color.WHITE);
-		panelOpPreferencias.setBounds(270, 31, 966, 702);
+		panelOpPreferencias.setBounds(273, 52, 983, 683);
 		panelOpPreferencias.setVisible(false);
 		panelMenu.add(panelOpPreferencias);
 		panelOpPreferencias.setLayout(null);
@@ -552,17 +592,23 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
 		panelOpAltaIngrediente = new JPanel();
 		panelOpAltaIngrediente.setBackground(new Color(192, 192, 192));
-		panelOpAltaIngrediente.setBounds(270, 31, 966, 702);
+		panelOpAltaIngrediente.setBounds(273, 52, 983, 683);
 		panelOpAltaIngrediente.setVisible(false);
 		panelMenu.add(panelOpAltaIngrediente);
 		panelOpAltaIngrediente.setLayout(null);
 
 		panelOpAltaReceta = new JPanel();
 		panelOpAltaReceta.setBackground(Color.PINK);
-		panelOpAltaReceta.setBounds(270, 31, 966, 702);
+		panelOpAltaReceta.setBounds(273, 52, 966, 683);
 		panelOpAltaReceta.setVisible(false);
 		panelMenu.add(panelOpAltaReceta);
 		panelOpAltaReceta.setLayout(null);
+		
+		lblNewLabel_3 = new JLabel("Menu de ajustes");
+		lblNewLabel_3.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblNewLabel_3.setBounds(273, 12, 983, 30);
+		panelMenu.add(lblNewLabel_3);
 
 		btnMenu = new JButton("Men\u00FA");
 		btnMenu.setFocusable(false);
@@ -574,7 +620,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		ImageIcon logoCeinmark = new ImageIcon("src/CEINMARK.png");
 		panelFiltros = new JPanel();
 		panelFiltros.setBackground(Color.WHITE);
-		panelFiltros.setBounds(10, 480, 250, 273);
+		panelFiltros.setBounds(10, 462, 250, 273);
 		contentPaneMain.add(panelFiltros);
 		panelFiltros.setLayout(null);
 
@@ -832,6 +878,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	public void toMenu() {
 		contentPaneMain.setVisible(false);
 		contentPaneMenu.setVisible(true);
+		panelBienvenida.setVisible(true);
 		setContentPane(contentPaneMenu);
 	}
 
@@ -845,6 +892,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 			panelOpPreferencias.setVisible(false);
 			panelOpAltaIngrediente.setVisible(false);
 			panelOpAltaReceta.setVisible(false);
+			panelBienvenida.setVisible(false);
 			panelMenu.add(panelOpIngredientes);
 		}
 
@@ -853,6 +901,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 			panelOpPreferencias.setVisible(true);
 			panelOpAltaIngrediente.setVisible(false);
 			panelOpAltaReceta.setVisible(false);
+			panelBienvenida.setVisible(false);
 			panelMenu.add(panelOpPreferencias);
 		}
 
@@ -861,6 +910,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 			panelOpPreferencias.setVisible(false);
 			panelOpAltaIngrediente.setVisible(true);
 			panelOpAltaReceta.setVisible(false);
+			panelBienvenida.setVisible(false);
 			panelMenu.add(panelOpAltaIngrediente);
 		}
 
@@ -869,6 +919,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 			panelOpPreferencias.setVisible(false);
 			panelOpAltaIngrediente.setVisible(false);
 			panelOpAltaReceta.setVisible(true);
+			panelBienvenida.setVisible(false);
 			panelMenu.add(panelOpAltaReceta);
 		}
 
