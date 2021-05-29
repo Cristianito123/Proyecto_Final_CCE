@@ -2,9 +2,7 @@ package Proyecto_Final;
 
 import java.awt.Image;
 import java.awt.Toolkit;
-
 import javax.swing.ImageIcon;
-//import java.util.Scanner;
 
 public class Utiles {
 	Toolkit misc = Toolkit.getDefaultToolkit();

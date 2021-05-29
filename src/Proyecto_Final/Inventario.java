@@ -46,7 +46,6 @@ public class Inventario {
 	}
 
 	public void setIngrediente(IngredienteEnBBDD ing, String atributos) {
-		System.out.println(atributos);// TODO BORRAR
 		ingredientes.add(new IngredienteEnInventario(ing, atributos.split(";")));
 	}
 

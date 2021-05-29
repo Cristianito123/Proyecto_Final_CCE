@@ -10,17 +10,12 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.Font;
-import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Insets;
 import javax.swing.UIManager;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JProgressBar;
 import java.awt.event.KeyAdapter;
@@ -66,6 +61,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 				hiddenUsername.setVisible(false);
 			}
 		});
+
 		username.setMargin(new Insets(-3, 2, 2, 2));
 		username.setBounds(150, 97, 100, 19);
 		username.setText("");
@@ -86,6 +82,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 				hidenInvalidPass.setVisible(false);
 			}
 		});
+
 		password.setMargin(new Insets(-3, 0, 0, 0));
 		password.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		password.setBounds(150, 127, 100, 19);
@@ -149,18 +146,17 @@ public class VentanaLogin extends JFrame implements ActionListener {
 
 		lblpassHint = new JLabel("\uD83D\uDC41");
 		lblpassHint.addMouseListener(new MouseAdapter() {
-			@Override
 			public void mousePressed(MouseEvent e) {
 				password.setFont(new Font("Tahoma", Font.PLAIN, 13));
 				password.setEchoChar((char) 0);
 			}
 
-			@Override
 			public void mouseReleased(MouseEvent e) {
 				password.setFont(new Font("Tahoma", Font.PLAIN, 15));
 				password.setEchoChar('•');
 			}
 		});
+
 		lblpassHint.setFont(UIManager.getFont("ColorChooser.font"));
 		lblpassHint.setBounds(250, 129, 13, 13);
 		panLogin.add(lblpassHint);
@@ -181,6 +177,7 @@ public class VentanaLogin extends JFrame implements ActionListener {
 			dispose();
 
 		}
+
 		if (e.getSource() == btnLogin) {
 			if (control.checkUser(username.getText())) {
 				if (control.chekPass(password.getPassword(), username.getText())) {

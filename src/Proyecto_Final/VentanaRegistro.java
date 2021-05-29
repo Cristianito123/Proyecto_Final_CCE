@@ -284,7 +284,9 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 									control.conectarBBDD();
 									control.userAdd(username.getText(), nombre.getText(), apellidos.getText(),
 											util.getPass(password.getPassword()));
+									control.construirInventario(username.getText());
 									control.insertBBDD("usuario");
+									
 									VentanaPrincipal main = new VentanaPrincipal(login, control, username.getText());
 									main.setIconImage(this.getIconImage());
 									main.setLocationRelativeTo(null);
