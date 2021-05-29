@@ -47,7 +47,6 @@ public class IngredienteEnInventario {
 		this.caducidad = caducidad;
 	}
 
-	@Override
 	public String toString() {
 		return "\n\tcantidad en inventario: " + cantidad + ingrediente + "\tcaducidad: " + caducidad + "\n";
 	}

@@ -11,9 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
-import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 
 public class Controlador {
@@ -198,7 +198,6 @@ public class Controlador {
 		login.setProgBar(50);
 		System.out.println("ingredientes de recetas ok"); // TODO BORRAR
 		System.out.println("todo ok"); // TODO BORRAR
-
 	}
 
 	public void mostrarUsuarios() {
@@ -246,7 +245,6 @@ public class Controlador {
 	public void insertBBDD(String orden) {
 		try {
 			stmt = conn.createStatement();
-//"INSERT IGNORE INTO ? VALUES (?)"
 			switch (orden) {
 			case "ingrediente":
 				// TODO PENDIENTE DE PROBAR CUANDO SE IMPLEMENTE UN ALTA INGREDIENTE
@@ -257,6 +255,7 @@ public class Controlador {
 							+ ingrediente[5] + "," + ingrediente[6] + "," + ingrediente[7] + ")");
 				}
 				break;
+
 			case "usuario":
 				for (Usuario user : listaUsuarios) {
 
@@ -281,6 +280,7 @@ public class Controlador {
 					}
 				}
 				break;
+
 			case "receta":
 				// TODO PENDIENTE DE PROBAR CUANDO SE IMPLEMENTE UN ALTA RECETA
 				for (Receta list : listaRecetas) {
@@ -297,12 +297,8 @@ public class Controlador {
 					}
 				}
 				break;
-			case "preparar":
-
 			}
-
 			// TODO LLAMAR EL METODO desconectarBBDD SIEMPRE QUE SE USE EL METODO insertBBDD
-
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -310,22 +306,22 @@ public class Controlador {
 
 	public void updateBBDD(String orden, String parametros) {
 		String[] parametro = parametros.split(";");
-
 		try {
 
-//"INSERT IGNORE INTO ? VALUES (?)"
 			switch (orden) {
-			case "ingrediente":
+
+			case "ingredienteInsert":
 				pstmt = conn.prepareStatement("");
 
 				for (IngredienteEnBBDD ing : listaIngredientes) {
 					String[] ingrediente = ing.toInsert();
-					pstmt.executeUpdate("INSERT IGNORE INTO filtro VALUES (" + ingrediente[0] + ",'" + ingrediente[1]
-							+ "','" + ingrediente[2] + "'," + ingrediente[3] + "," + ingrediente[4] + ","
-							+ ingrediente[5] + "," + ingrediente[6] + "," + ingrediente[7] + ")");
+					pstmt.executeUpdate("INSERT IGNORE INTO ingrediente VALUES (" + ingrediente[0] + ",'"
+							+ ingrediente[1] + "','" + ingrediente[2] + "'," + ingrediente[3] + "," + ingrediente[4]
+							+ "," + ingrediente[5] + "," + ingrediente[6] + "," + ingrediente[7] + ")");
 				}
 				break;
-			case "usuario":
+
+			case "usuarioInsert":
 				pstmt = conn.prepareStatement("");
 				for (Usuario user : listaUsuarios) {
 
@@ -365,7 +361,8 @@ public class Controlador {
 //				pstmt.setString(2, parametro[1]);
 //				pstmt.executeUpdate();
 //				break;
-			case "preparar": // ahora este activa un trigger en la BBDD que hace lo mismo de arriba
+
+			case "preparar": // ahora este case activa un trigger en la BBDD que hace lo mismo de arriba
 				pstmt = conn.prepareStatement("INSERT INTO preparar (userID, recetaID) VALUES (?,?)");
 				pstmt.setString(1, parametro[0]);
 				pstmt.setString(2, parametro[1]);
@@ -374,7 +371,7 @@ public class Controlador {
 				System.out.println("update ok");
 				break;
 
-			case "vegetariano": // ejecutar al momento de volver atras
+			case "vegetariano":
 				pstmt = conn.prepareStatement("UPDATE filtro SET vegetariano = ? WHERE userID = ?");
 				pstmt.setString(1, parametro[0]);
 				pstmt.setString(2, parametro[1]);
@@ -382,6 +379,7 @@ public class Controlador {
 				System.out.println(pstmt);
 				System.out.println("update ok");
 				break;
+
 			case "vegano":
 				pstmt = conn.prepareStatement("UPDATE filtro SET vegano = ? WHERE userID = ?");
 				pstmt.setString(1, parametro[0]);
@@ -390,6 +388,7 @@ public class Controlador {
 				System.out.println(pstmt);
 				System.out.println("update ok");
 				break;
+
 			case "alergico":
 				pstmt = conn.prepareStatement("UPDATE filtro SET alergico = ? WHERE userID = ?");
 				pstmt.setString(1, parametro[0]);
@@ -398,6 +397,7 @@ public class Controlador {
 				System.out.println(pstmt);
 				System.out.println("update ok");
 				break;
+
 			case "lactosa":
 				pstmt = conn.prepareStatement("UPDATE filtro SET intolerante_lactosa = ? WHERE userID = ?");
 				pstmt.setString(1, parametro[0]);
@@ -406,6 +406,7 @@ public class Controlador {
 				System.out.println(pstmt);
 				System.out.println("update ok");
 				break;
+
 			case "gluten":
 				pstmt = conn.prepareStatement("UPDATE filtro SET intolerante_gluten = ? WHERE userID = ?");
 				pstmt.setString(1, parametro[0]);
@@ -429,13 +430,7 @@ public class Controlador {
 				System.out.println("update ok");
 				break;
 
-//				INSERT INTO IngredientesEnInventario (inventarioID, ingredienteID, cantidad, caducidad) VALUES (?,?,?,?) ON DUPLICATE KEY 
-//				UPDATE cantidad = ?	
-//				ejemplo
-//				INSERT INTO IngredientesEnInventario (inventarioID, ingredienteID, cantidad, caducidad) VALUES (2,0,2,'2025-06-30 15:04:50') ON DUPLICATE KEY 
-//				UPDATE cantidad = 2;
-
-			case "receta":
+			case "recetaInsert":
 				pstmt = conn.prepareStatement("");
 				for (Receta list : listaRecetas) {
 					String[] receta = list.toInsert();
@@ -443,11 +438,8 @@ public class Controlador {
 							+ receta[2] + "','" + receta[3] + "'," + receta[4] + "," + receta[5] + "," + receta[6] + ","
 							+ receta[7] + "," + receta[8] + "," + receta[9] + ",'" + receta[10] + "')");
 				}
-
 			}
-
 			// TODO LLAMAR EL METODO desconectarBBDD SIEMPRE QUE SE USE EL METODO updateBBDD
-
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
@@ -488,7 +480,6 @@ public class Controlador {
 
 	public ArrayList<Usuario> getUserList() {
 		return listaUsuarios;
-
 	}
 
 	public int getUserID(String user) {
@@ -538,8 +529,20 @@ public class Controlador {
 				ing = bus;
 			}
 		}
-		System.out.println(ing);// TODO BORRAR
 		return ing;
+	}
+
+	public void construirInventario(String user) {
+		int index = 0;
+		for (Usuario bus : listaUsuarios) {
+			if (bus.getUsername().equalsIgnoreCase(user)) {
+				for (IngredienteEnBBDD ing: listaIngredientes) {
+					listaUsuarios.get(index).getInventario().setIngrediente(ing, bus.getInventario().getInventarioID()+";"+0+";"+LocalDateTime.now().plusYears(10).toString().replace("T", " "));
+				}
+				break;
+			}
+			index++;
+		}		
 	}
 
 }

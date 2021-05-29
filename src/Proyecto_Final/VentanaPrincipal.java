@@ -22,24 +22,23 @@ import javax.swing.JTextPane;
 import javax.swing.JSeparator;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
 import javax.swing.border.LineBorder;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 public class VentanaPrincipal extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
-	Utiles util = new Utiles();
-	private int wWidth = util.getWSize("width"), wHeight = util.getWSize("height");
+	private Utiles util = new Utiles();
+	private int wWidth = util.getWSize("width"), wHeight = util.getWSize("height"), userIndice;
 	private Controlador control;
 	private VentanaLogin login;
-	private JLabel lblIngEnInv, lblRecetasDispo, lblVolver, lblVegetariano, lblVegano, lblAlergico, lblLactosa,
-			lblGluten;
-	private JPanel contentPaneMain, contentPaneMenu, panelIngredientes, panelRecetas, panelMenu, panelOpciones,
-			panelFiltros, panelOpIngredientes;
+	private Usuario us;
+	private String logedUser;
+	private DecimalFormat decimal = new DecimalFormat("#.##");
 	private JScrollPane scrollPaneInventario, scrollPaneRecetas;
 	private ArrayList<JToggleButton> ingredientes;
 	private ArrayList<JLabel> info, foto;
@@ -50,25 +49,16 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 	private ArrayList<IngredienteEnInventario> ingredientesBuscar;
 	private ArrayList<IngredienteEnInventario> ingredientesDispo;
 	private ArrayList<Receta> recetasMostrar;
-	private String logedUser;
-	private int userIndice;
+	private JTextField textField, textField_1;
+	private JToggleButton tglbtnVegetariano, tglbtnVegano, tglbtnAlergico, tglbtnLactosa, tglbtnGluten;
+	private JLabel lblIngEnInv, lblRecetasDispo, lblRecetasDispo2, lblVolver, lblVegetariano, lblVegano, lblAlergico,
+			lblLactosa, lblGluten, lblNewLabel_1, lblNewLabel_2, lblFechaInvalida, lblCantidadInvalida, lblIngExito,
+			lblLogoApp, lblLogoCeinmark, lblMedida;
+	private JPanel contentPaneMain, contentPaneMenu, panelIngredientes, panelRecetas, panelMenu, panelOpciones,
+			panelFiltros, panelOpIngredientes, panelOpPreferencias, panelOpAltaIngrediente, panelOpAltaReceta;
 	private JButton btnSyso, btnVolver, btnMenu, btnFiltros, btnAltaIngrediente, btnAgregarRecetas,
 			btnAgregarIngredientes, btnCerrarSesion;
-	private JToggleButton tglbtnVegetariano, tglbtnVegano, tglbtnAlergico, tglbtnLactosa, tglbtnGluten;
-	private JPanel panelOpPreferencias;
-	private JPanel panelOpAltaIngrediente;
-	private JPanel panelOpAltaReceta;
-	private Usuario us;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
-	private JLabel lblFechaInvalida;
-	private JLabel lblCantidadInvalida;
-	private JLabel lblIngExito;
-	private JLabel lblLogoApp;
-	private JLabel lblLogoCeinmark;
-
+	
 	public VentanaPrincipal(VentanaLogin ventanaLogin, Controlador controlador, String username) {
 		setBackground(Color.WHITE);
 		control = controlador;
@@ -91,12 +81,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		ingredientesBuscar = new ArrayList<IngredienteEnInventario>();
 		ingredientesDispo = new ArrayList<IngredienteEnInventario>();
 
-		contentPaneMain = new JPanel();// TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA TRABAJAR EN EL MAIN (PONER
-										// PARA EJECUTAR!)*
-		setContentPane(contentPaneMain);// TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA TRABAJAR EN EL MAIN (PONER
-										// PARA EJECUTAR!)*
-		contentPaneMenu = new JPanel();// TODO PONER PARA TRABAJAR EN EL MENU Y QUITAR PARA TRABAJAR EN EL MAIN (PONER
-										// PARA EJECUTAR!)*
+		contentPaneMain = new JPanel();// TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA TRABAJAR EN EL MAIN (PONER PARA EJECUTAR!)*
+		setContentPane(contentPaneMain);// TODO QUITAR PARA TRABAJAR EN EL MENU Y PONER PARA TRABAJAR EN EL MAIN (PONER PARA EJECUTAR!)*
+		contentPaneMenu = new JPanel();// TODO PONER PARA TRABAJAR EN EL MENU Y QUITAR PARA TRABAJAR EN EL MAIN (PONER PARA EJECUTAR!)*
 //		setContentPane(contentPaneMenu);//TODO PONER PARA TRABAJAR EN EL MENU Y QUITAR PARA TRABAJAR EN EL MAIN (QUITAR PARA EJECUTAR!)
 
 		contentPaneMenu.addMouseListener(new MouseAdapter() {
@@ -166,8 +153,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		panelIngredientes.setLayout(null);
 		panelRecetas.setLayout(null);
 
-		mostrarListaIngredientes();
-
 		contentPaneMenu.add(panelMenu);
 		contentPaneMain.add(scrollPaneInventario);
 		contentPaneMain.add(scrollPaneRecetas);
@@ -189,6 +174,14 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		lblRecetasDispo.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblRecetasDispo.setBounds(273, 30, 983, 30);
 		contentPaneMain.add(lblRecetasDispo);
+
+		lblRecetasDispo2 = new JLabel("Recetas disponibles con los ingredientes seleccionados");
+		lblRecetasDispo2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRecetasDispo2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblRecetasDispo2.setBounds(273, 30, 983, 30);
+		lblRecetasDispo2.setVisible(false);
+		contentPaneMain.add(lblRecetasDispo2);
+
 		panelMenu.setLayout(null);
 
 		btnVolver = new JButton("<<");
@@ -261,7 +254,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		panelMenu.add(panelOpIngredientes);
 		panelOpIngredientes.setLayout(null);
 
-//		@SuppressWarnings("unchecked")
 		JComboBox<Object> comboBox = new JComboBox<Object>(control.getIngredientesBBDD());
 		comboBox.setBounds(10, 10, 300, 21);
 		panelOpIngredientes.add(comboBox);
@@ -269,6 +261,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		textField = new JTextField();
 		textField.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				lblMedida.setText("(Unidad de medida: "
+						+ control.getIngrediente(comboBox.getSelectedItem().toString()).getMedida() + ")");
 				lblCantidadInvalida.setVisible(false);
 				lblIngExito.setVisible(false);
 			}
@@ -289,11 +283,11 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		textField_1.setColumns(10);
 
 		lblNewLabel_1 = new JLabel("Cantidad");
-		lblNewLabel_1.setBounds(480, 14, 100, 13);
+		lblNewLabel_1.setBounds(474, 14, 65, 13);
 		panelOpIngredientes.add(lblNewLabel_1);
 
-		lblNewLabel_2 = new JLabel("Caducidad");
-		lblNewLabel_2.setBounds(480, 43, 100, 13);
+		lblNewLabel_2 = new JLabel("Caducidad (DD-MM-AAAA)");
+		lblNewLabel_2.setBounds(474, 43, 155, 13);
 		panelOpIngredientes.add(lblNewLabel_2);
 
 		JButton btnNewButton = new JButton("Agregar");
@@ -303,13 +297,19 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 				String dCero = "", mCero = "";
 				boolean fechOk = false, cantOk = false;
 				try {
+					// TODO
+//					asd
 					dia = Integer.parseInt(textField_1.getText().split("-")[0]);
-					if (dia < 10) {
+					if (dia < 10 && !textField_1.getText().split("-")[0].contains("0")) {
 						dCero = "0";
+					} else {
+						dCero = "";
 					}
 					mes = Integer.parseInt(textField_1.getText().split("-")[1]);
-					if (mes < 10) {
+					if (mes < 10 && !textField_1.getText().split("-")[1].contains("0")) {
 						mCero = "0";
+					} else {
+						mCero = "";
 					}
 					year = Integer.parseInt(textField_1.getText().split("-")[2]);
 					if (textField_1.getText().split("-").length == 3 && dia < 32 && dia > 0 && mes > 0 && mes < 13
@@ -326,7 +326,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 				}
 
 				try {
-					if (Integer.parseInt(textField.getText()) > 0 && Integer.parseInt(textField.getText()) < 99999) {
+					if (Double.parseDouble(textField.getText()) > 0
+							&& Double.parseDouble(textField.getText()) < 99999) {
 						cantOk = true;
 					} else {
 						lblCantidadInvalida.setVisible(true);
@@ -338,14 +339,14 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
 				if (cantOk && fechOk) {
 					lblIngExito.setVisible(true);
-					System.out.println("mu bueno");
 					boolean existe = false;
 					int indiceIng = 0;
 					for (IngredienteEnInventario bus : control.getListaIngEnInv(logedUser)) {
 						if (bus.getIngrediente().getNombre().equalsIgnoreCase(comboBox.getSelectedItem().toString())) {
 							existe = true;
+							break;
 						}
-
+						indiceIng++;
 					}
 					if (!existe) {
 						us.getInventario().setIngrediente(control.getIngrediente(comboBox.getSelectedItem().toString()),
@@ -354,11 +355,12 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 					} else {
 						us.getInventario().getIngredientes().get(indiceIng)
 								.setCantidad(us.getInventario().getIngredientes().get(indiceIng).getCantidad()
-										+ Integer.parseInt(textField.getText()));
+										+ Double.parseDouble(textField.getText()));
 						us.getInventario().getIngredientes().get(indiceIng).setCaducidad(
 								LocalDateTime.parse(year + "-" + mCero + textField_1.getText().split("-")[1] + "-"
 										+ dCero + textField_1.getText().split("-")[0] + "T" + LocalTime.now()));
 					}
+
 					control.conectarBBDD();
 					control.updateBBDD("addIngInv",
 							us.getInventario().getInventarioID() + ";"
@@ -367,6 +369,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 					control.desconectarBBDD();
 					textField.setText("");
 					textField_1.setText("");
+					lblMedida.setText("");
 				}
 
 			}
@@ -377,13 +380,13 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		lblFechaInvalida = new JLabel("Error en formato de fecha");
 		lblFechaInvalida.setVisible(false);
 		lblFechaInvalida.setForeground(Color.RED);
-		lblFechaInvalida.setBounds(553, 43, 200, 13);
+		lblFechaInvalida.setBounds(627, 43, 200, 13);
 		panelOpIngredientes.add(lblFechaInvalida);
 
 		lblCantidadInvalida = new JLabel("Cantidad invalida");
 		lblCantidadInvalida.setForeground(Color.RED);
 		lblCantidadInvalida.setVisible(false);
-		lblCantidadInvalida.setBounds(553, 14, 200, 13);
+		lblCantidadInvalida.setBounds(696, 14, 200, 13);
 		panelOpIngredientes.add(lblCantidadInvalida);
 
 		lblIngExito = new JLabel("Ingrediente agregado con exito");
@@ -392,6 +395,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		lblIngExito.setAutoscrolls(true);
 		lblIngExito.setBounds(480, 73, 200, 13);
 		panelOpIngredientes.add(lblIngExito);
+
+		lblMedida = new JLabel("");
+		lblMedida.setBounds(530, 14, 165, 13);
+		panelOpIngredientes.add(lblMedida);
 
 		panelOpPreferencias = new JPanel();
 		panelOpPreferencias.setBorder(new LineBorder(Color.BLACK));
@@ -595,9 +602,13 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		panelFiltros.add(txtpnProyectoFinal);
 
 		setVisible(true);
+
+		mostrarListaIngredientes();
 	}
 
 	private void mostrarListaIngredientes() {
+//		lblRecetasDispo2.setVisible(false);
+//		lblRecetasDispo.setVisible(true);
 		panelIngredientes.removeAll();
 		info.removeAll(info);
 		ingredientes.removeAll(ingredientes);
@@ -618,8 +629,15 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 				ingredientes.get(indice).setName(
 						listaIng.getIngrediente().getNombre() + ";" + indice + ";" + listaIng.getIngrediente().getId());
 				info.get(indice).setBounds(125, alto + 3, 140, 13);
-				info.get(indice).setText(
-						"Tienes: " + (int) listaIng.getCantidad() + listaIng.getIngrediente().getMedida() + ".");
+
+				String cant = "";
+				if (listaIng.getCantidad() - ((int) listaIng.getCantidad()) > 0) {
+					cant = decimal.format(listaIng.getCantidad()) + "";
+				} else {
+					cant = (int) listaIng.getCantidad() + "";
+				}
+
+				info.get(indice).setText("Tienes: " + cant + listaIng.getIngrediente().getMedida() + ".");
 				panelIngredientes.add(info.get(indice));
 				panelIngredientes.add(ingredientes.get(indice));
 				panelIngredientes.setPreferredSize(new Dimension(250, alto + 30));
@@ -645,6 +663,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 
 		int countIngReceta = 0, countIngDispo = 0;
 		if (ingredientesBuscar.isEmpty()) {
+			lblRecetasDispo2.setVisible(false);
+			lblRecetasDispo.setVisible(true);
 			for (Receta bus : control.getRecetas()) {
 				countIngReceta = 0;
 				countIngDispo = 0;
@@ -663,6 +683,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 				}
 			}
 		} else {
+			lblRecetasDispo2.setVisible(true);
+			lblRecetasDispo.setVisible(false);
 			for (Receta bus : control.getRecetas()) {
 				countIngReceta = 0;
 				countIngDispo = 0;
@@ -736,7 +758,6 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 			preparar.get(indice).setBounds(10, alto, 140, 21);
 			preparar.get(indice).setName(receta.getNombre() + ";" + receta.getRecetaID());
 			preparar.get(indice).setActionCommand(receta.getNombre() + ";" + receta.getRecetaID());
-//			preparar.get(indice).addActionListener(this);
 			preparar.get(indice).addMouseListener(new MouseAdapter() {
 				public void mousePressed(MouseEvent e) {
 					String[] name = e.getComponent().getName().split(";");
@@ -891,67 +912,10 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 					ingredientesBuscar.remove(ingrediente);
 				}
 				mostraListaRecetas();
+//				lblRecetasDispo2.setVisible(true);
+//				lblRecetasDispo.setVisible(false);
 				break;
 			}
 		}
-
-//		for (JButton boton : preparar) {
-//			System.out.println(boton.getName());
-//			if (e.getSource().toString().contains(boton.getName().split(";")[0])) {
-//				System.out.println(recetasMostrar.toString());
-//				String[] name = boton.getName().split(";");
-//				int id = Integer.parseInt(name[1]);
-//				Receta receta = null;
-//				for (Receta bus : recetasMostrar) {
-//					System.out.println(id);
-//					System.out.println(bus.getNombre() + " " + bus.getRecetaID());
-//					if (bus.getRecetaID() == id) {
-//						receta = bus;
-//						System.out.println("\nvas vas a preparar la siguiente receta " + receta.getNombre());
-//					}
-//				}
-//				int userIndex = 0, ingIndex = 0;
-//				double cantidadInv = 0, cantidadRec = 0;
-//				userIndex = 0;
-//				for (Usuario user : control.getUserList()) {
-//					if (user.getUsername().equalsIgnoreCase(logedUser)) {
-//						ingIndex = 0;
-//						control.conectarBBDD();
-//						for (IngredienteEnInventario ingInv : user.getInventario().getIngredientes()) {
-//							for (IngredienteEnReceta ingRec : receta.getIngredientes()) {
-//								if (ingRec.getIngrediente().getId() == ingInv.getIngrediente().getId()) {
-//									cantidadInv = ingInv.getCantidad();
-//									cantidadRec = ingRec.getCantidad();
-//									if (cantidadInv > cantidadRec) {
-//										System.out.println("UPDATE QUERY");
-//										control.getUserList().get(userIndex).getInventario().getIngredientes()
-//												.get(ingIndex).setCantidad(cantidadInv - ingRec.getCantidad());
-////										control.updateBBDD("ingEnInvUpdate",
-////												cantidadInv - ingRec.getCantidad() + ";" + ingInv.getInventarioID()
-////														+ ";" + ingInv.getIngrediente().getId());
-//									} else {
-//										System.out.println("DELETE FROM");
-//										control.getUserList().get(userIndex).getInventario().getIngredientes()
-//												.get(ingIndex).setCantidad(cantidadInv - ingRec.getCantidad());
-////										control.updateBBDD("ingEnInvDelete",
-////												ingInv.getInventarioID() + ";" + ingInv.getIngrediente().getId());
-//									}
-////									break;
-//								}
-//							}
-//							ingIndex++;
-//						}
-//						control.updateBBDD("preparar", user.getUserID() + ";" + id);
-//						control.desconectarBBDD();
-////						break;
-//					}
-//					userIndex++;
-//				}
-//				System.out.println("aqui");
-//				mostrarListaIngredientes();// no me lo ejecuta, el bucle de botones esta bug
-//				System.out.println("sale?");
-//				break;
-//			}
-//		}
 	}
 }
