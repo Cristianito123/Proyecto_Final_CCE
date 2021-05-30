@@ -203,29 +203,38 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lblNewLabel_4.setBounds(0, 0, 983, 30);
+		lblNewLabel_4.setBounds(0, 324, 983, 30);
 		panelBienvenida.add(lblNewLabel_4);
 		
-		lblNewLabel_5 = new JLabel("Puedes empezar agregando ingreidientes a tu inventario ");
+		lblNewLabel_5 = new JLabel("Puedes empezar agregando ingredientes a tu inventario");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel_5.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_5.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_5.setBounds(0, 50, 983, 30);
+		lblNewLabel_5.setBounds(0, 374, 983, 30);
 		panelBienvenida.add(lblNewLabel_5);
 		
 		lblNewLabel_6 = new JLabel("Luego ajustar tus preferencias alimentarias");
 		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel_6.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6.setBounds(0, 80, 983, 30);
+		lblNewLabel_6.setBounds(0, 404, 983, 30);
 		panelBienvenida.add(lblNewLabel_6);
 		
 		lblNewLabel_7 = new JLabel("Cuando estes listo puedes darle al boton de volver para empezar a Flipar y Cocinar ;)");
 		lblNewLabel_7.setHorizontalTextPosition(SwingConstants.CENTER);
 		lblNewLabel_7.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblNewLabel_7.setBounds(0, 110, 983, 30);
+		lblNewLabel_7.setBounds(0, 434, 983, 30);
 		panelBienvenida.add(lblNewLabel_7);
+		
+		
+		ImageIcon imgBannerBienvenida = new ImageIcon("src/logo.png");
+		JLabel lblBanner = new JLabel("");
+		lblBanner.setIcon(new ImageIcon(imgBannerBienvenida.getImage().getScaledInstance(500, 300, Image.SCALE_SMOOTH)));
+		lblBanner.setHorizontalAlignment(SwingConstants.CENTER);
+		lblBanner.setBounds(241, 11, 500, 300);
+		panelBienvenida.add(lblBanner);
+		
 		btnVolver.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnVolver.setHorizontalAlignment(SwingConstants.LEFT);
 		btnVolver.setBounds(10, 10, 32, 21);
@@ -243,13 +252,13 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		btnCerrarSesion = new JButton("Cerrar sesi\u00F3n");
 		btnCerrarSesion.setFocusable(false);
 		btnCerrarSesion.addActionListener(this);
-		btnCerrarSesion.setBounds(50, 134, 150, 21);
+		btnCerrarSesion.setBounds(25, 134, 200, 21);
 		panelOpciones.add(btnCerrarSesion);
 
 		btnAgregarIngredientes = new JButton("Agregar ingredientes");
 		btnAgregarIngredientes.addActionListener(this);
 		btnAgregarIngredientes.setFocusable(false);
-		btnAgregarIngredientes.setBounds(50, 10, 150, 21);
+		btnAgregarIngredientes.setBounds(25, 10, 200, 21);
 		panelOpciones.add(btnAgregarIngredientes);
 
 		btnAgregarRecetas = new JButton("Agregar Recetas");
@@ -259,7 +268,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		if (logedUser.equalsIgnoreCase("ADMIN")) {
 			btnAgregarRecetas.setVisible(true);
 		}
-		btnAgregarRecetas.setBounds(50, 103, 150, 21);
+		btnAgregarRecetas.setBounds(25, 103, 200, 21);
 		panelOpciones.add(btnAgregarRecetas);
 
 		btnAltaIngrediente = new JButton("Alta Ingredientes BBDD");
@@ -269,18 +278,21 @@ public class VentanaPrincipal extends JFrame implements ActionListener {
 		if (logedUser.equalsIgnoreCase("ADMIN")) {
 			btnAltaIngrediente.setVisible(true);
 		}
-		btnAltaIngrediente.setBounds(50, 72, 150, 21);
+		btnAltaIngrediente.setBounds(25, 72, 200, 21);
 		panelOpciones.add(btnAltaIngrediente);
 
 		btnFiltros = new JButton("Ajustar preferencias");
 		btnFiltros.addActionListener(this);
 		btnFiltros.setFocusable(false);
-		btnFiltros.setBounds(50, 41, 150, 21);
+		btnFiltros.setBounds(25, 41, 200, 21);
 		panelOpciones.add(btnFiltros);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(10, 462, 230, 230);
-		panelOpciones.add(lblNewLabel);
+		ImageIcon imgPanelOp = new ImageIcon("src/PANEL_OP.png");
+		JLabel lblImgPanel = new JLabel("");
+		lblImgPanel.setIcon(new ImageIcon(imgPanelOp.getImage().getScaledInstance(230, 506, Image.SCALE_SMOOTH)));
+		lblImgPanel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblImgPanel.setBounds(10, 166, 230, 506);
+		panelOpciones.add(lblImgPanel);
 
 		lblVolver = new JLabel("Volver");
 		lblVolver.setBounds(45, 14, 45, 13);
