@@ -33,7 +33,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 	private boolean success = false;
 	private JLabel lblTitulo, lblUsername, lblNombre, lblApellidos, lblPassword, lblVerificar, lblPasswordVerif,
 			lblUsernameExist, lblInvalidPass, lblIntroduceUsuario, lblIntroduceNombre, lblIntroduceApellidos,
-			lblIntroduceContraseña, iconPassHiden, iconPassHiden_2;
+			lblIntroduceContraseña, iconPassHiden, iconPassHiden_2, lblWarn, lblWarn2;
 
 	public VentanaRegistro(VentanaLogin ventanaLogin, Controlador controlador, String user) {
 		setResizable(false);
@@ -54,6 +54,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		setTitle("Filp & Cook");
 		util.centrar(400, 300);
 		panRegister.setLayout(null);
+		panRegister.setVisible(true);
 		setContentPane(panRegister);
 
 		btnVolver = new JButton("<<");
@@ -262,6 +263,20 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		lblIntroduceContraseña.setVisible(false);
 		panRegister.add(lblIntroduceContraseña);
 
+		lblWarn = new JLabel("Creando cuenta e inventario");
+		lblWarn.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWarn.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblWarn.setBounds(10, 74, 424, 41);
+		lblWarn.setVisible(false);
+		panRegister.add(lblWarn);
+
+		lblWarn2 = new JLabel("espera un momento");
+		lblWarn2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblWarn2.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblWarn2.setBounds(10, 116, 424, 45);
+		lblWarn2.setVisible(false);
+		panRegister.add(lblWarn2);
+
 		setVisible(true);
 
 	}
@@ -281,12 +296,12 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 							if (!control.checkUser(username.getText())) {
 								if (util.getPass(password.getPassword())
 										.equalsIgnoreCase(util.getPass(passwordVerif.getPassword()))) {
+									panRegister.setVisible(false);
 									control.conectarBBDD();
 									control.userAdd(username.getText(), nombre.getText(), apellidos.getText(),
 											util.getPass(password.getPassword()));
 									control.construirInventario(username.getText());
 									control.insertBBDD("usuario");
-									
 									VentanaPrincipal main = new VentanaPrincipal(login, control, username.getText());
 									main.setIconImage(this.getIconImage());
 									main.setLocationRelativeTo(null);
